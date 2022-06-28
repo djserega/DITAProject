@@ -16,6 +16,8 @@ namespace ITAJira
 
         static VMLoader()
         {
+            Logger.Inf("Initializing loader");
+
             ServiceCollection services = new();
 
             services.Scan(el =>
@@ -28,6 +30,8 @@ namespace ITAJira
 
             foreach (ServiceDescriptor service in services.Where(el => el.Lifetime == ServiceLifetime.Singleton))
                 Provider.GetRequiredService(service.ServiceType);
+
+            Logger.Inf("Complited");
         }
 
         public static T? Resolve<T>() => Provider.GetService<T>();

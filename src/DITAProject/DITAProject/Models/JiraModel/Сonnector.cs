@@ -44,7 +44,6 @@ namespace ITAJira.Models.JiraModel
 
         public bool ListTaskUpdating { get; private set; }
 
-        public ICommand ConnectCommand => new DelegateCommand(() =>
         public ICommand ConnectCommand => new DelegateCommand(async () =>
         {
             Connected = false;
@@ -64,7 +63,6 @@ namespace ITAJira.Models.JiraModel
                 {
                     string pwd = windowPwd.GetPassword();
 
-                    TryConnecting(pwd);
                     await TryConnecting(pwd);
 
                     if (Connected)
@@ -74,7 +72,6 @@ namespace ITAJira.Models.JiraModel
                         {
                             mainViewModel.ConnectorTime.Address = Address;
                             mainViewModel.ConnectorTime.User = User;
-                            mainViewModel.ConnectorTime.TryConnecting(pwd);
                             await mainViewModel.ConnectorTime.TryConnecting(pwd);
                         }
 
@@ -119,7 +116,6 @@ namespace ITAJira.Models.JiraModel
 
         });
 
-        private void TryConnecting(string pwd)
         private async Task<bool> TryConnecting(string pwd)
         {
             bool result = false;
@@ -127,23 +123,39 @@ namespace ITAJira.Models.JiraModel
             if (Address == "https://<domain>")
             {
                 MessageBox.Show("Не указан адрес подключения");
-                return;
                 return result;
             }
 
             try
             {
+                Logger.Inf("Connecting");
+
                 _jira = Jira.CreateRestClient(Address, User, pwd);
 
                 await _jira.Statuses.GetStatusesAsync();
 
                 Connected = true;
                 result = true;
+
+                Logger.Inf("Success");
             }
             catch (UriFormatException ex)
             {
+                Logger.Err($"Connecting error:\n{ex}");
                 MessageBox.Show($"Ошибка подключения.\n{ex.Message}");
             }
+            catch (System.Security.Authentication.AuthenticationException ex)
+            {
+                Logger.Err($"Connecting error:\n{ex}");
+                if (ex.Message.Contains("Basic authentication with passwords is deprecated"))
+                    MessageBox.Show("Не верный api-ключ");
+            }
+            catch(Exception ex)
+            {
+                Logger.Err($"Connecting error:\n{ex}");
+                MessageBox.Show("Ошибка подключения");
+            }
+
             return result;
         }
 
@@ -152,18 +164,11 @@ namespace ITAJira.Models.JiraModel
             if (_jira == null)
                 return;
 
-            IEnumerable<IssueStatus> statuses;
-            try
-            {
-                statuses = await _jira.Statuses.GetStatusesAsync();
-            }
-            catch (System.Security.Authentication.AuthenticationException ex)
-            {
-                if (ex.Message.Contains("Basic authentication with passwords is deprecated"))
-                    MessageBox.Show("Не верный api-ключ");
+            Logger.Inf("Loading statuses");
 
-                return;
-            }
+            IEnumerable<IssueStatus> statuses = await _jira.Statuses.GetStatusesAsync();
+
+            Logger.Inf($"Loaded statuses: {statuses.Count()}");
 
             TaskStatus.TaskStatuses.Clear();
 
@@ -184,6 +189,8 @@ namespace ITAJira.Models.JiraModel
         {
             ListTaskUpdating = true;
 
+            Logger.Inf("Loading issues");
+
             IQueryable<Issue>? issues = GetFilteredIssue();
 
             if (issues == null)
@@ -192,6 +199,8 @@ namespace ITAJira.Models.JiraModel
                 return;
             }
 
+            Logger.Inf("Converting issues");
+
             List<Task> listTask = new();
             foreach (Issue item in issues)
             {
@@ -199,6 +208,8 @@ namespace ITAJira.Models.JiraModel
             }
 
             ListTaskUpdatingEvent?.Invoke(null, listTask);
+
+            Logger.Inf("Updating list users");
 
             List<User?> usersTasks = new();
             usersTasks.AddRange(listTask.Select(el => el.AssigneeUser));
@@ -214,12 +225,12 @@ namespace ITAJira.Models.JiraModel
             if (key == null)
                 return default;
 
-            IQueryable<Issue> issues = GetFilteredIssue();
+            IQueryable<Issue>? issues = GetFilteredIssue();
 
             if (issues == null)
                 return default;
 
-            IEnumerable<IssueChangeLog> listLogsIssue = null;
+            IEnumerable<IssueChangeLog>? listLogsIssue = null;
             foreach (Issue item in issues)
             {
                 if (item.Key == key)
@@ -245,16 +256,31 @@ namespace ITAJira.Models.JiraModel
             if (mainView == null)
                 return default;
 
+            Logger.Inf("Initializing base filter issues");
+
             IQueryable<Issue>? listIssues = GetIssuesFromProject();
             if (listIssues == null)
                 return default;
+
+            Logger.Inf("Filtering by date");
+
             listIssues = listIssues.Where(el => el.Updated >= mainView.DateTimeStartPeriod && el.Updated < mainView.DateTimeEndPeriod.AddDays(1));
+
+            Logger.Inf("Filtering by statuses");
 
             listIssues = SetFilterStatuses(mainView, listIssues);
 
+            Logger.Inf("Sorted elements");
+
             IOrderedQueryable<Issue> lastFilteredIssues = listIssues.OrderByDescending(el => el.Created);
 
-            return lastFilteredIssues.Take(100);
+            Logger.Inf("Loading issues");
+
+            IQueryable<Issue> issues = lastFilteredIssues.Take(100);
+
+            Logger.Inf($"Loaded issues: {issues.Count()}");
+
+            return issues;
         }
 
         private static IQueryable<Issue> SetFilterStatuses(ViewModels.MainViewModel mainView, IQueryable<Issue> listIssues)
