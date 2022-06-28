@@ -9,34 +9,41 @@ namespace ITAJira
 {
     internal class Logger
     {
-        private static readonly Serilog.Core.Logger _seriLog;
+        private static readonly Serilog.Core.Logger? _seriLog = null;
 
         static Logger()
         {
-            _seriLog = new LoggerConfiguration()
-                .MinimumLevel.Verbose()
-                .WriteTo.File("log.txt")
-                .CreateLogger();
+            if (Config.Debug)
+            {
+                _seriLog = new LoggerConfiguration()
+                    .MinimumLevel.Verbose()
+                    .WriteTo.File("log.txt")
+                    .CreateLogger();
 
-            Inf("Logger starting");
+                Inf("Logger starting");
+            }
         }
 
         public static void Inf(string text)
         {
-            _seriLog.Information(text);
+            if (Config.Debug)
+                _seriLog?.Information(text);
         }
         public static void Inf(string text, params object[] propertyValues)
         {
-            _seriLog.Information(text, propertyValues);
+            if (Config.Debug)
+                _seriLog?.Information(text, propertyValues);
         }
 
         public static void Err(string text)
         {
-            _seriLog.Error(text);
+            if (Config.Debug)
+                _seriLog?.Error(text);
         }
         public static void Err(string text, params object[] propertyValues)
         {
-            _seriLog.Information(text, propertyValues);
+            if (Config.Debug)
+                _seriLog?.Information(text, propertyValues);
         }
 
     }

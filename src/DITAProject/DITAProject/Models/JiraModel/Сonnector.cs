@@ -18,18 +18,11 @@ namespace ITAJira.Models.JiraModel
     {
         private Jira? _jira;
 
-        private const string _nameConfigJson = "config.json";
 
         public Сonnector()
         {
-            IConfigurationRoot? _config = new ConfigurationBuilder()
-                    .SetBasePath(new FileInfo(Assembly.GetExecutingAssembly().Location).Directory?.FullName)
-                    .AddJsonFile(_nameConfigJson, false, true)
-                    .Build();
-
-            Address = _config.GetValue<string>("address");
-            User = _config.GetValue<string>("user");
-            Project = _config.GetValue<string>("Project");
+            Address = Config.Address;
+            User = Config.User;
         }
 
         internal static event EventHandler<List<TaskStatus>>? ListStatusUpdatingEvent;
@@ -38,7 +31,6 @@ namespace ITAJira.Models.JiraModel
 
         public string Address { get; set; }
         public string User { get; set; }
-        private string Project { get; set; }
 
         public bool Connected { get; private set; }
 
@@ -83,7 +75,7 @@ namespace ITAJira.Models.JiraModel
 
         public ICommand SetCurrentConnectionParameterToDefault => new DelegateCommand(() =>
         {
-            FileInfo fileConfig = new(_nameConfigJson);
+            FileInfo fileConfig = new(Config.NameConfig);
 
             StringBuilder builderWriter = new();
             using (StreamReader reader = new(fileConfig.OpenRead()))
@@ -319,7 +311,7 @@ namespace ITAJira.Models.JiraModel
             if (_jira == null)
                 return default;
 
-            return _jira.Issues.Queryable.Where(el => el.Project == Project);
+            return _jira.Issues.Queryable.Where(el => el.Project == Config.Project);
         }
     }
 }
