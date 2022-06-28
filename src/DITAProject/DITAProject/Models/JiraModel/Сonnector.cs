@@ -10,6 +10,7 @@ using System.Windows.Input;
 using Microsoft.Extensions.Configuration;
 using System.Reflection;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace ITAJira.Models.JiraModel
 {
@@ -28,6 +29,7 @@ namespace ITAJira.Models.JiraModel
 
             Address = _config.GetValue<string>("address");
             User = _config.GetValue<string>("user");
+            Project = _config.GetValue<string>("Project");
         }
 
         internal static event EventHandler<List<TaskStatus>>? ListStatusUpdatingEvent;
@@ -36,6 +38,7 @@ namespace ITAJira.Models.JiraModel
 
         public string Address { get; set; }
         public string User { get; set; }
+        private string Project { get; set; }
 
         public bool Connected { get; private set; }
 
@@ -279,7 +282,7 @@ namespace ITAJira.Models.JiraModel
             if (_jira == null)
                 return default;
 
-            return _jira.Issues.Queryable.Where(el => el.Project == "IOC");
+            return _jira.Issues.Queryable.Where(el => el.Project == Project);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿{
-    "address": "https://<domain>",
-    "user": "email"
+  "address": "https://<domain>",
+  "user": "email",
+  "Project": "IOC"
 }
