@@ -45,6 +45,7 @@ namespace ITAJira.Models.JiraModel
         public bool ListTaskUpdating { get; private set; }
 
         public ICommand ConnectCommand => new DelegateCommand(() =>
+        public ICommand ConnectCommand => new DelegateCommand(async () =>
         {
             Connected = false;
 
@@ -64,6 +65,7 @@ namespace ITAJira.Models.JiraModel
                     string pwd = windowPwd.GetPassword();
 
                     TryConnecting(pwd);
+                    await TryConnecting(pwd);
 
                     if (Connected)
                     {
@@ -73,6 +75,7 @@ namespace ITAJira.Models.JiraModel
                             mainViewModel.ConnectorTime.Address = Address;
                             mainViewModel.ConnectorTime.User = User;
                             mainViewModel.ConnectorTime.TryConnecting(pwd);
+                            await mainViewModel.ConnectorTime.TryConnecting(pwd);
                         }
 
                         GetStatuses();
@@ -117,23 +120,31 @@ namespace ITAJira.Models.JiraModel
         });
 
         private void TryConnecting(string pwd)
+        private async Task<bool> TryConnecting(string pwd)
         {
+            bool result = false;
+
             if (Address == "https://<domain>")
             {
                 MessageBox.Show("Не указан адрес подключения");
                 return;
+                return result;
             }
 
             try
             {
                 _jira = Jira.CreateRestClient(Address, User, pwd);
 
+                await _jira.Statuses.GetStatusesAsync();
+
                 Connected = true;
+                result = true;
             }
             catch (UriFormatException ex)
             {
                 MessageBox.Show($"Ошибка подключения.\n{ex.Message}");
             }
+            return result;
         }
 
         private async void GetStatuses()
