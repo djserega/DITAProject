@@ -217,6 +217,8 @@ namespace ITAJira.Models.JiraModel
             if (key == null)
                 return default;
 
+            Logger.Inf($"Loading timespent issue {key}");
+
             IQueryable<Issue>? issues = GetFilteredIssue();
 
             if (issues == null)
