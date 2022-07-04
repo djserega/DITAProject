@@ -4,7 +4,7 @@ namespace ITAJira.IssueTime
 {
     internal class Time
     {
-        private Dictionary<string, decimal> _notRecordedIssueTime;
+        //private Dictionary<string, decimal> _notRecordedIssueTime;
 
         //internal decimal 
     }

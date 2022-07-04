@@ -99,12 +99,10 @@ namespace ITAJira.Models.JiraModel
                 reader.Dispose();
             }
 
-            using (StreamWriter writer = new(fileConfig.FullName, false))
-            {
-                writer.Write(builderWriter.ToString());
-                writer.Flush();
-                writer.Dispose();
-            }
+            using StreamWriter writer = new(fileConfig.FullName, false);
+            writer.Write(builderWriter.ToString());
+            writer.Flush();
+            writer.Dispose();
 
         });
 
