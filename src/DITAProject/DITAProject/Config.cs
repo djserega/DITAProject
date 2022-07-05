@@ -14,10 +14,12 @@ namespace ITAJira
     {
         private const string _nameConfigJson = "config.json";
 
+        internal static string BaseDirectory { get => new FileInfo(Assembly.GetExecutingAssembly().Location).Directory?.FullName ?? string.Empty; }
+
         static Config()
         {
             IConfigurationRoot? _config = new ConfigurationBuilder()
-                    .SetBasePath(new FileInfo(Assembly.GetExecutingAssembly().Location).Directory?.FullName)
+                    .SetBasePath(BaseDirectory)
                     .AddJsonFile(_nameConfigJson, false, true)
                     .Build();
 
