@@ -20,9 +20,9 @@ namespace ITAJira.Models.JiraModel
         public string? ParentIssueKey { get; set; }
         public User? AssigneeUser { get; set; }
         public User? ReporterUser { get; set; }
-        public DateTime? Created { get; set; }
+        public DateTime Created { get; set; }
         public DateTime? ResolutionDate { get; set; }
-        public DateTime? Updated { get; set; }
+        public DateTime Updated { get; set; }
         // CustomFields
         public string? Summary { get; set; }
         public string? Description { get; set; }
@@ -31,6 +31,7 @@ namespace ITAJira.Models.JiraModel
         public string? ProjectKey { get; set; }
         public string? Status { get; set; }
         public string? TimeSpent { get; set; }
+        public long TimeSpentInSeconds { get; set; }
         // TimeTrackingData	{Atlassian.Jira.IssueTimeTrackingData}	Atlassian.Jira.IssueTimeTrackingData
         //Type	{История}	Atlassian.Jira.IssueType
 
@@ -42,7 +43,7 @@ namespace ITAJira.Models.JiraModel
                 AssigneeUser = User.AddUser(issue.AssigneeUser);
             if (issue.ReporterUser != null)
                 ReporterUser = User.AddUser(issue.ReporterUser);
-            Created = issue.Created;
+            Created = issue.Created ?? DateTime.MinValue;
             Description = issue.Description;
             Summary = issue.Summary;
             JiraIdentifier = issue.JiraIdentifier;
@@ -50,8 +51,9 @@ namespace ITAJira.Models.JiraModel
             ParentIssueKey = issue.ParentIssueKey;
             ProjectKey = issue.Project;
             Status = issue.Status.Name;
-            Updated = issue.Updated;
+            Updated = issue.Updated ?? DateTime.MinValue;
             TimeSpent = issue.TimeTrackingData.TimeSpent;
+            TimeSpentInSeconds = issue.TimeTrackingData.TimeSpentInSeconds ?? 0L;
         }
 
         internal void FillTimeSpent(IEnumerable<IssueChangeLog> issueChangeLogs)
