@@ -18,7 +18,6 @@ namespace ITAJira.Models.JiraModel
     {
         private Jira? _jira;
 
-
         public Сonnector()
         {
             Address = Config.Address;
@@ -268,7 +267,7 @@ namespace ITAJira.Models.JiraModel
 
             Logger.Inf("Loading issues");
 
-            IQueryable<Issue> issues = lastFilteredIssues.Take(100);
+            IQueryable<Issue> issues = lastFilteredIssues.Take(200);
 
             Logger.Inf($"Loaded issues: {issues.Count()}");
 
