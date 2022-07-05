@@ -1,4 +1,5 @@
 ﻿using Atlassian.Jira;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,14 +30,15 @@ namespace ITAJira.Models.JiraModel
             get
             {
                 int min = 0;
-
                 int hours = SpentSecond / 3600;
                 if (hours * 3600 != SpentSecond)
                 {
-                    min = SpentSecond - hours * 3600;
+                    min = (SpentSecond - hours * 3600) / 60;
+                    if (min < 1)
+                        min = 0;
                 }
 
-                return $"{hours} ч.{(min == 0 ? "" : $" {min.ToString()[..2]} мин.")}";
+                return $"{hours} ч.{(min == 0 ? "" : $" {min} мин.")}";
             }
         }
     }
