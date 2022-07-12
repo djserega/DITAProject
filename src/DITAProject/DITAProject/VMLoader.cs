@@ -1,9 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ITAJira
 {
@@ -28,14 +24,15 @@ namespace ITAJira
 
             Provider = services.BuildServiceProvider();
 
-            foreach (ServiceDescriptor service in services.Where(el => el.Lifetime == ServiceLifetime.Singleton))
-                Provider.GetRequiredService(service.ServiceType);
+            //foreach (ServiceDescriptor service in services.Where(el => el.Lifetime == ServiceLifetime.Singleton))
+            //    Provider.GetRequiredService(service.ServiceType);
 
             Logger.Inf("Complited");
         }
 
-        public static T? Resolve<T>() => Provider.GetService<T>();
+        public static T? Resolve<T>() => Provider.GetRequiredService<T>();
 
         public ViewModels.MainViewModel? MainViewModel { get => Resolve<ViewModels.MainViewModel>(); }
+        public ViewModels.ReportPage? ReportPage { get => Resolve<ViewModels.ReportPage>(); }
     }
 }

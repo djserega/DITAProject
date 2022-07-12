@@ -17,6 +17,7 @@
   <ItemGroup>
     <PackageReference Include="Atlassian.SDK" Version="13.0.0" />
     <PackageReference Include="DevExpressMvvm" Version="21.1.5" />
+    <PackageReference Include="LiveCharts.Wpf.Core" Version="0.9.8" />
     <PackageReference Include="MaterialDesignThemes" Version="4.5.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.1" />

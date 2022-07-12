@@ -7,6 +7,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 
@@ -34,6 +35,8 @@ namespace ITAJira.ViewModels
             {
                 ListTasks = new(e);
                 ListTasksView = CollectionViewSource.GetDefaultView(ListTasks);
+                //TODO Check current thread
+                //ShowCloseReportPage();
             };
             Models.JiraModel.Сonnector.ListUsersInListTask += (object? sender, List<Models.JiraModel.User> users) =>
             {
@@ -125,7 +128,7 @@ namespace ITAJira.ViewModels
         public bool UpdatingTimeLog { get; set; }
 
         private Models.JiraModel.Task? _selectedTask;
-        public Models.JiraModel.Task? SelectedTask 
+        public Models.JiraModel.Task? SelectedTask
         {
             get => _selectedTask;
             set
@@ -150,6 +153,7 @@ namespace ITAJira.ViewModels
 
         private string _textToFilterListTasks;
 
+
         public string TextToFilterListTasks
         {
             get => _textToFilterListTasks;
@@ -161,7 +165,7 @@ namespace ITAJira.ViewModels
         }
 
 
-        public ICollectionView ListTasksView { get; private set; }
+        public ICollectionView? ListTasksView { get; private set; }
         public ObservableCollection<Models.JiraModel.Task> ListTasks { get; set; } = new();
 
         public ICommand OpenSelectedTaskCommand => new DelegateCommand(() =>
@@ -178,7 +182,36 @@ namespace ITAJira.ViewModels
                 UseShellExecute = true,
                 Verb = "open"
             });
-        }, () => SelectedTask != null);
+        }, () => SelectedTask != null && !ReportPageVisibility);
+
+        #endregion
+
+        #region Reports
+
+        internal static event EventHandler<List<Models.JiraModel.Task>> ShowReportEvent;
+        internal static event EventHandler HideReportEvent;
+
+        public ICommand ShowCloseReportCommand
+        {
+            get => new DelegateCommand(() =>
+        {
+            ReportPageVisibility = !ReportPageVisibility;
+
+            ShowCloseReportPage();
+        });
+        }
+
+        private void ShowCloseReportPage()
+        {
+            if (ReportPageVisibility)
+                ShowReportEvent?.Invoke(null, ListTasksView?.Cast<Models.JiraModel.Task>().ToList() ?? new List<Models.JiraModel.Task>());
+            else
+                HideReportEvent?.Invoke(null, null);
+        }
+
+        public bool ReportPageVisibility { get; set; }
+
+        public Page ReportPage { get; set; } = new Views.ReportPage();
 
         #endregion
 

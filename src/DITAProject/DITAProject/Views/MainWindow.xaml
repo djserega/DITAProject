@@ -252,6 +252,7 @@
                         <ColumnDefinition Width="auto"/>
                         <ColumnDefinition Width="auto"/>
                         <ColumnDefinition MaxWidth="300"/>
+                        <ColumnDefinition />
                         <ColumnDefinition Width="auto"/>
                     </Grid.ColumnDefinitions>
 
@@ -273,6 +274,11 @@
                              Height="35"
                              md:HintAssist.Hint="{md:PackIcon Kind=Magnify}"
                              md:TextFieldAssist.HasClearButton="True"/>
+
+                    <Button Grid.Column="4"
+                            Margin="5 0"
+                            Content="Диаграмма"
+                            Command="{Binding ShowCloseReportCommand}"/>
 
                 </Grid>
 
@@ -322,6 +328,23 @@
                                  Visibility="{Binding Connector.ListTaskUpdating, Converter={StaticResource BooleanToVisibilityConverter}}"/>
                 </Grid>
 
+                <Grid Grid.Row="1"
+                      Visibility="{Binding ReportPageVisibility, Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+
+                    <Button Grid.Row="0"
+                            DataContext="{Binding Source={StaticResource VMLoader}, Path=ReportPage}"
+                            Content="Reset"
+                            Command="{Binding ResetZoomCommand}"/>
+
+                    <Frame Grid.Row="1"
+                           Content="{Binding ReportPage}"/>
+
+                </Grid>
+                
             </Grid>
 
             <Grid Grid.Column="2">
