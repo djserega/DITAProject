@@ -23,7 +23,7 @@ namespace ITAJira.Views.Reports
     /// </summary>
     public partial class ReportTooltip : UserControl, IChartTooltip
     {
-        private TooltipData _data;
+        private TooltipData? _data;
 
         public ReportTooltip()
         {
