@@ -341,6 +341,7 @@
                             Command="{Binding ResetZoomCommand}"/>
 
                     <Frame Grid.Row="1"
+                           x:Name="FramePage"
                            Content="{Binding ReportPage}"/>
 
                 </Grid>

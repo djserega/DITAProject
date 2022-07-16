@@ -35,8 +35,8 @@ namespace ITAJira.ViewModels
             {
                 ListTasks = new(e);
                 ListTasksView = CollectionViewSource.GetDefaultView(ListTasks);
-                //TODO Check current thread
-                //ShowCloseReportPage();
+
+                System.Windows.Application.Current.Dispatcher.Invoke(() => { ShowCloseReportPage(); });
             };
             Models.JiraModel.Сonnector.ListUsersInListTask += (object? sender, List<Models.JiraModel.User> users) =>
             {
@@ -188,8 +188,8 @@ namespace ITAJira.ViewModels
 
         #region Reports
 
-        internal static event EventHandler<List<Models.JiraModel.Task>> ShowReportEvent;
-        internal static event EventHandler HideReportEvent;
+        internal static event EventHandler<List<Models.JiraModel.Task>>? ShowReportEvent;
+        internal static event EventHandler? HideReportEvent;
 
         public ICommand ShowCloseReportCommand
         {
@@ -203,6 +203,8 @@ namespace ITAJira.ViewModels
 
         private void ShowCloseReportPage()
         {
+            ReportPage = new Views.ReportPage();
+
             if (ReportPageVisibility)
                 ShowReportEvent?.Invoke(null, ListTasksView?.Cast<Models.JiraModel.Task>().ToList() ?? new List<Models.JiraModel.Task>());
             else
@@ -211,7 +213,7 @@ namespace ITAJira.ViewModels
 
         public bool ReportPageVisibility { get; set; }
 
-        public Page ReportPage { get; set; } = new Views.ReportPage();
+        public Page? ReportPage { get; set; } = new Views.ReportPage();
 
         #endregion
 

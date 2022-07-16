@@ -23,6 +23,24 @@ namespace ITAJira
         public MainWindow()
         {
             InitializeComponent();
+
+            try
+            {
+                ViewModels.MainViewModel.ShowReportEvent += (_, _) => 
+                {
+                    if (FramePage.CanGoBack)
+                        FramePage.RemoveBackEntry(); 
+                };
+                ViewModels.MainViewModel.HideReportEvent += (_, _) =>
+                {
+                    if (FramePage.CanGoBack)
+                        FramePage.RemoveBackEntry();
+                };
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
     }
 }
