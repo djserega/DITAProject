@@ -11,6 +11,9 @@
         Title="ITA Jira - DITA group"
         Height="600"
         Width="1300">
+    <Window.Resources>
+        <local:InvertBoolVisibilityConverter x:Key="InvertBool"/>
+    </Window.Resources>
     <Grid Margin="10 0">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -262,6 +265,7 @@
                     <Button Grid.Column="1"
                             Margin="5 0"
                             Content="Открыть задачу"
+                            Visibility="{Binding ReportPageVisibility, Converter={StaticResource InvertBool}}"
                             Command="{Binding OpenSelectedTaskCommand}"/>
 
                     <TextBox Grid.Column="2"
@@ -270,6 +274,7 @@
                              VerticalAlignment="Center"
                              VerticalContentAlignment="Bottom"
                              Height="35"
+                             Visibility="{Binding ReportPageVisibility, Converter={StaticResource InvertBool}}"
                              md:HintAssist.Hint="{md:PackIcon Kind=Magnify}"
                              md:TextFieldAssist.HasClearButton="True"/>
 
@@ -281,6 +286,7 @@
                     <Button Grid.Column="5"
                             Margin="5 0"
                             Content="Время задачи"
+                            Visibility="{Binding ReportPageVisibility, Converter={StaticResource InvertBool}}"
                             Command="{Binding ShowCloseSpentCurrentTaskCommand}"/>
 
                 </Grid>
@@ -332,6 +338,7 @@
                 </Grid>
 
                 <Grid Grid.Row="1"
+                      Background="#e3f2fd"
                       Visibility="{Binding ReportPageVisibility, Converter={StaticResource BooleanToVisibilityConverter}}">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto"/>
@@ -340,6 +347,7 @@
 
                     <Button Grid.Row="0"
                             DataContext="{Binding Source={StaticResource VMLoader}, Path=ReportPage}"
+                            Width="200"
                             Content="Reset"
                             Command="{Binding ResetZoomCommand}"/>
 

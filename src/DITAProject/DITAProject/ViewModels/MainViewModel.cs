@@ -217,7 +217,10 @@ namespace ITAJira.ViewModels
             ReportPage = new Views.ReportPage();
 
             if (ReportPageVisibility)
+            {
                 ShowReportEvent?.Invoke(null, ListTasksView?.Cast<Models.JiraModel.Task>().ToList() ?? new List<Models.JiraModel.Task>());
+                SelectedTask = null;
+            }
             else
                 HideReportEvent?.Invoke(null, null);
         }
