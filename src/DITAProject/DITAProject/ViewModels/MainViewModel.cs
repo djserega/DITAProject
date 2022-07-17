@@ -135,25 +135,25 @@ namespace ITAJira.ViewModels
             {
                 _selectedTask = value;
 
-                Task.Run(() =>
+                if (ShowTimeSpentDetailed)
                 {
-                    UpdatingTimeLog = true;
+                    Task.Run(() =>
+                    {
+                        UpdatingTimeLog = true;
 
-                    IEnumerable<IssueChangeLog>? changeLogs = ConnectorTime.GetTimeSpentFromIssue(_selectedTask?.Key);
-                    if (_selectedTask != null && changeLogs != null)
-                        _selectedTask.FillTimeSpent(changeLogs);
+                        IEnumerable<IssueChangeLog>? changeLogs = ConnectorTime.GetTimeSpentFromIssue(_selectedTask?.Key);
+                        if (_selectedTask != null && changeLogs != null)
+                            _selectedTask.FillTimeSpent(changeLogs);
 
-                    UpdatingTimeLog = false;
-                });
+                        UpdatingTimeLog = false;
+                    });
+                }
             }
         }
 
         public List<Models.JiraModel.User> Users { get; set; } = new();
 
-
         private string _textToFilterListTasks;
-
-
         public string TextToFilterListTasks
         {
             get => _textToFilterListTasks;
@@ -163,7 +163,6 @@ namespace ITAJira.ViewModels
                 InitFilterListTasks();
             }
         }
-
 
         public ICollectionView? ListTasksView { get; private set; }
         public ObservableCollection<Models.JiraModel.Task> ListTasks { get; set; } = new();
@@ -183,6 +182,18 @@ namespace ITAJira.ViewModels
                 Verb = "open"
             });
         }, () => SelectedTask != null && !ReportPageVisibility);
+
+        #endregion
+
+        #region SpentCurrentTask
+
+        public bool ShowTimeSpentDetailed { get; set; }
+
+        public ICommand ShowCloseSpentCurrentTaskCommand { get => new DelegateCommand(() =>
+        {
+            ShowTimeSpentDetailed = !ShowTimeSpentDetailed;
+        }, () => { return SelectedTask != null; });
+        }
 
         #endregion
 
