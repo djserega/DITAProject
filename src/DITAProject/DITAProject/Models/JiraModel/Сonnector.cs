@@ -269,7 +269,16 @@ namespace ITAJira.Models.JiraModel
 
             IQueryable<Issue> issues = lastFilteredIssues.Take(200);
 
-            Logger.Inf($"Loaded issues: {issues.Count()}");
+            try
+            {
+                Logger.Inf($"Loaded issues: {issues.Count()}");
+            }
+            catch (AggregateException ex)
+            {
+                Logger.Err(ex.ToString());
+                MessageBox.Show($"Ошибка загрузки задач:\n{ex.InnerException?.Message}");
+                return null;
+            }
 
             return issues;
         }
