@@ -47,69 +47,6 @@ namespace ITAJira.ViewModels
 
         internal void BuildReport(List<Models.JiraModel.Task> tasks)
         {
-            if (!tasks.Any())
-            {
-                tasks = new List<Models.JiraModel.Task>()
-                {
-                    new()
-                    {
-                        Key = "ITA-230",
-                        Updated = new(2022, 07, 06),
-                        AssigneeUser = new(){ Name = "Sergey"},
-                        TimeSpentInSeconds = 3600
-                    },
-                    new()
-                    {
-                        Key = "ITA-250",
-                        Updated = new(2022, 07, 03),
-                        AssigneeUser = new(){ Name = "Galyuk"},
-                        TimeSpentInSeconds = 14400
-                    },
-                    new()
-                    {
-                        Key = "ITA-125",
-                        Updated = new(2022, 07, 07),
-                        AssigneeUser = new(){ Name = "Galyuk"},
-                        TimeSpentInSeconds = 7200
-                    },
-                    new()
-                    {
-                        Key = "ITA-50",
-                        Updated = new(2022, 07, 01),
-                        AssigneeUser = new(){ Name = "Galyuk"},
-                        TimeSpentInSeconds = 7261
-                    },
-                    new()
-                    {
-                        Key = "ITA-130",
-                        Updated = new(2022, 07, 06),
-                        AssigneeUser = new(){ Name = "Sergey"},
-                        TimeSpentInSeconds = 3600
-                    },
-                    new()
-                    {
-                        Key = "ITA-150",
-                        Updated = new(2022, 07, 03),
-                        AssigneeUser = new(){ Name = "Galyuk"},
-                        TimeSpentInSeconds = 14400
-                    },
-                    new()
-                    {
-                        Key = "ITA-25",
-                        Updated = new(2022, 07, 07),
-                        AssigneeUser = new(){ Name = "Galyuk"},
-                        TimeSpentInSeconds = 7200
-                    },
-                    new()
-                    {
-                        Key = "ITA-550",
-                        Updated = new(2022, 07, 01),
-                        AssigneeUser = new(){ Name = "Galyuk"},
-                        TimeSpentInSeconds = 7261
-                    }
-            };
-            }
-
             _dictAssigneesSpent.Clear();
 
             From = default;
@@ -119,33 +56,35 @@ namespace ITAJira.ViewModels
             Series?.Clear();
             Labels = Array.Empty<string>();
 
-            IEnumerable<IGrouping<string?, Models.JiraModel.Task>> lastData = tasks.GroupBy(el => el.AssigneeUser?.Name);
-            Dictionary<string, long> firstValue = new();
-
-            List<string> listLabels = new();
-
-            foreach (IGrouping<string?, Models.JiraModel.Task> itemGroupName in lastData)
+            try
             {
-                if (string.IsNullOrEmpty(itemGroupName.Key))
-                    continue;
+                IEnumerable<IGrouping<string?, Models.JiraModel.Task>> lastData = tasks.GroupBy(el => el.AssigneeUser?.Name);
+                Dictionary<string, long> firstValue = new();
 
-                long spentTime = itemGroupName.Sum(el => el.TimeSpentInSeconds);
+                List<string> listLabels = new();
 
-                if (firstValue.ContainsKey(itemGroupName.Key))
-                    firstValue[itemGroupName.Key] += spentTime;
-                else
-                    firstValue.Add(itemGroupName.Key, spentTime);
+                foreach (IGrouping<string?, Models.JiraModel.Task> itemGroupName in lastData)
+                {
+                    if (string.IsNullOrEmpty(itemGroupName.Key))
+                        continue;
 
-                _values.Add(new GanttPoint(0, spentTime));
+                    long spentTime = itemGroupName.Sum(el => el.TimeSpentInSeconds);
 
-                listLabels.Add(itemGroupName.Key);
+                    if (firstValue.ContainsKey(itemGroupName.Key))
+                        firstValue[itemGroupName.Key] += spentTime;
+                    else
+                        firstValue.Add(itemGroupName.Key, spentTime);
 
-                _dictAssigneesSpent.Add(itemGroupName.Key, spentTime);
-            };
+                    _values.Add(new GanttPoint(0, spentTime));
 
-            Labels = listLabels.ToArray();
+                    listLabels.Add(itemGroupName.Key);
 
-            Series = new SeriesCollection
+                    _dictAssigneesSpent.Add(itemGroupName.Key, spentTime);
+                };
+
+                Labels = listLabels.ToArray();
+
+                Series = new SeriesCollection
             {
                 new RowSeries
                 {
@@ -154,6 +93,13 @@ namespace ITAJira.ViewModels
                     LabelPoint = (ChartPoint obj) => { return GetStringSpentFromKeyLabel(obj.Key); }
                 }
             };
+
+            }
+            catch (Exception ex)
+            {
+                Logger.Err(ex.ToString());
+                MessageBox.Show($"Ошибка формирования отчета:\n{ex.Message}");
+            }
 
             ResetZoom();
         }
