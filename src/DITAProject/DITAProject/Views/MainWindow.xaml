@@ -345,16 +345,16 @@
                         <RowDefinition/>
                     </Grid.RowDefinitions>
 
-                    <Button Grid.Row="0"
+                    <Frame Grid.Row="0"
+                           x:Name="FramePage"
+                           NavigationUIVisibility="Hidden"
+                           Content="{Binding ReportPage}"/>
+
+                    <Button Grid.Row="1"
                             DataContext="{Binding Source={StaticResource VMLoader}, Path=ReportPage}"
                             Width="200"
                             Content="Reset"
                             Command="{Binding ResetZoomCommand}"/>
-
-                    <Frame Grid.Row="1"
-                           x:Name="FramePage"
-                           NavigationUIVisibility="Hidden"
-                           Content="{Binding ReportPage}"/>
 
                 </Grid>
 
