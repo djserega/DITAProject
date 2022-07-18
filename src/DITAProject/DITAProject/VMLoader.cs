@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Linq;
 
 namespace ITAJira
 {
@@ -23,9 +24,6 @@ namespace ITAJira
                 );
 
             Provider = services.BuildServiceProvider();
-
-            //foreach (ServiceDescriptor service in services.Where(el => el.Lifetime == ServiceLifetime.Singleton))
-            //    Provider.GetRequiredService(service.ServiceType);
 
             Logger.Inf("Complited");
         }
