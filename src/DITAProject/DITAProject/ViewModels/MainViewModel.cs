@@ -7,6 +7,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
@@ -214,12 +215,21 @@ namespace ITAJira.ViewModels
 
         private void ShowCloseReportPage()
         {
-            ReportPage = new Views.ReportPage();
-
             if (ReportPageVisibility)
             {
-                ShowReportEvent?.Invoke(null, ListTasksView?.Cast<Models.JiraModel.Task>().ToList() ?? new List<Models.JiraModel.Task>());
-                SelectedTask = null;
+                List<Models.JiraModel.Task> tasks = ListTasksView?.Cast<Models.JiraModel.Task>().ToList() ?? new List<Models.JiraModel.Task>();
+                if (tasks.Any())
+                {
+                    ReportPage = new Views.ReportPage();
+
+                    ShowReportEvent?.Invoke(null, tasks);
+                    SelectedTask = null;
+                }
+                else
+                {
+                    ReportPageVisibility = false;
+                    MessageBox.Show("Нет задач для вывода в отчет");
+                }
             }
             else
                 HideReportEvent?.Invoke(null, null);
