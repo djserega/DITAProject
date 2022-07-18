@@ -1,6 +1,6 @@
 ﻿{
   "address": "https://<domain>",
   "user": "email",
-  "project": "IOC",
+  "project": "",
   "debug": false
 }

@@ -139,7 +139,7 @@ namespace ITAJira.Models.JiraModel
                 if (ex.Message.Contains("Basic authentication with passwords is deprecated"))
                     MessageBox.Show("Не верный api-ключ");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Logger.Err($"Connecting error:\n{ex}");
                 MessageBox.Show("Ошибка подключения");
@@ -319,7 +319,10 @@ namespace ITAJira.Models.JiraModel
             if (_jira == null)
                 return default;
 
-            return _jira.Issues.Queryable.Where(el => el.Project == Config.Project);
+            if (string.IsNullOrEmpty(Config.Project))
+                return _jira.Issues.Queryable;
+            else
+                return _jira.Issues.Queryable.Where(el => el.Project == Config.Project);
         }
     }
 }
