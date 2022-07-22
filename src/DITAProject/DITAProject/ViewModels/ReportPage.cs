@@ -20,17 +20,7 @@ namespace ITAJira.ViewModels
 
         public ReportPage()
         {
-            MainViewModel.ShowReportEvent += (o, listTasks) => { BuildReport(listTasks); };
-            MainViewModel.HideReportEvent += (o, e) => { Series?.Clear(); };
-            Views.Reports.ToolTipConverter.FormatterToolTipReport += (int labelKey, string detailed) => 
-            {
-                if (detailed == "Header")
-                    return Labels?[labelKey] ?? string.Empty;
-                else if (detailed == "Spent")
-                    return GetStringSpentFromKeyLabel(labelKey);
-                else
-                    return "-";
-            };
+            InitEvents();
 
             BuildReport(new List<Models.JiraModel.Task>());
         }
@@ -44,6 +34,21 @@ namespace ITAJira.ViewModels
         private Dictionary<string, long> _dictAssigneesSpent = new();
 
         public ICommand ResetZoomCommand { get => new DelegateCommand(() => { ResetZoom(); }); }
+
+        private void InitEvents()
+        {
+            MainViewModel.ShowReportEvent += (o, listTasks) => { BuildReport(listTasks); };
+            MainViewModel.HideReportEvent += (o, e) => { Series?.Clear(); };
+            Views.Reports.ToolTipConverter.FormatterToolTipReport += (int labelKey, string detailed) =>
+            {
+                if (detailed == "Header")
+                    return Labels?[labelKey] ?? string.Empty;
+                else if (detailed == "Spent")
+                    return GetStringSpentFromKeyLabel(labelKey);
+                else
+                    return "-";
+            };
+        }
 
         internal void BuildReport(List<Models.JiraModel.Task> tasks)
         {
