@@ -234,7 +234,7 @@ namespace ITAJira.ViewModels
                 }
             }
             else
-                HideReportEvent?.Invoke(null, null);
+                HideReportEvent?.Invoke(null, new EventArgs());
         }
 
         public bool ReportPageVisibility { get; set; }
@@ -245,7 +245,8 @@ namespace ITAJira.ViewModels
 
         private void InitFilterListTasks()
         {
-            ListTasksView.Filter = FilterListTasks;
+            if (ListTasksView != null)
+                ListTasksView.Filter = FilterListTasks;
         }
         private bool FilterListTasks(object obj)
         {

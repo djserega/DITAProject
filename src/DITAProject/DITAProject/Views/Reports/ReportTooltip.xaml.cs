@@ -34,19 +34,19 @@ namespace ITAJira.Views.Reports
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        public TooltipData Data
+        public TooltipData? Data
         {
             get { return _data; }
             set
             {
                 _data = value;
-                OnPropertyChanged("Data");
+                OnPropertyChanged(nameof(Data));
             }
         }
 
         public TooltipSelectionMode? SelectionMode { get; set; }
 
-        protected virtual void OnPropertyChanged(string propertyName = null)
+        protected virtual void OnPropertyChanged(string? propertyName = null)
         {
             if (PropertyChanged != null)
                 PropertyChanged.Invoke(this, new PropertyChangedEventArgs(propertyName));

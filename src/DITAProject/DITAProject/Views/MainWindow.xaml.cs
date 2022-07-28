@@ -39,7 +39,7 @@ namespace ITAJira
             }
             catch (Exception ex)
             {
-
+                Logger.Err(ex);
             }
         }
     }

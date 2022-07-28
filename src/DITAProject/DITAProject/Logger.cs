@@ -35,6 +35,11 @@ namespace ITAJira
                 _seriLog?.Information(text, propertyValues);
         }
 
+        public static void Err(Exception ex)
+        {
+            if (Config.Debug)
+                _seriLog?.Error(ex.ToString());
+        }
         public static void Err(string text)
         {
             if (Config.Debug)
