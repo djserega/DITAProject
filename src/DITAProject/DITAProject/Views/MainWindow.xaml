@@ -313,52 +313,85 @@
 
                             </Grid>
 
-
                             <Grid Grid.Row="1">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition Width="auto"/>
+                                </Grid.ColumnDefinitions>
 
-                                <DataGrid Background="#e3f2fd"
-                                          ItemsSource="{Binding ListTasksView}"
-                                          d:ItemsSource="{d:SampleData ItemCount=15}"
-                                          SelectedItem="{Binding SelectedTask}"
-                                          AutoGenerateColumns="False"
-                                          IsReadOnly="True">
-                                    <DataGrid.Columns>
-                                        <DataGridTextColumn Header="Номер"          Binding="{Binding Key}"/>
-                                        <DataGridTextColumn Header="Статус"         Binding="{Binding Status}"/>
-                                        <DataGridTextColumn Header="Тема"           Binding="{Binding Summary}" MaxWidth="500"/>
-                                        <DataGridTextColumn Header="Автор"          Binding="{Binding ReporterUser.Name}"/>
-                                        <DataGridTextColumn Header="Ответственный"  Binding="{Binding AssigneeUser.Name}"/>
-                                        <DataGridTextColumn Header="Время"          Binding="{Binding TimeSpent}"/>
-                                        <DataGridTextColumn Header="Изменено"       Binding="{Binding Updated, StringFormat=HH:mm:ss dd.MM.yyyy}"/>
-                                        <DataGridTextColumn Header="Создано"        Binding="{Binding Created, StringFormat=HH:mm:ss dd.MM.yyyy}"/>
-                                    </DataGrid.Columns>
-                                </DataGrid>
+                                <Grid Grid.Column="0">
 
-                                <Grid HorizontalAlignment="Right"
-                                      VerticalAlignment="Bottom"
-                                      Margin="0 0 10 20"
-                                      Opacity=".7">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition/>
-                                    </Grid.ColumnDefinitions>
+                                    <DataGrid Background="#e3f2fd"
+                                              ItemsSource="{Binding ListTasksView}"
+                                              d:ItemsSource="{d:SampleData ItemCount=15}"
+                                              SelectedItem="{Binding SelectedTask}"
+                                              AutoGenerateColumns="False"
+                                              IsReadOnly="True">
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn Header="Номер"          Binding="{Binding Key}"/>
+                                            <DataGridTextColumn Header="Статус"         Binding="{Binding Status}"/>
+                                            <DataGridTextColumn Header="Тема"           Binding="{Binding Summary}" MaxWidth="500"/>
+                                            <DataGridTextColumn Header="Автор"          Binding="{Binding ReporterUser.Name}"/>
+                                            <DataGridTextColumn Header="Ответственный"  Binding="{Binding AssigneeUser.Name}"/>
+                                            <DataGridTextColumn Header="Время"          Binding="{Binding TimeSpent}"/>
+                                            <DataGridTextColumn Header="Изменено"       Binding="{Binding Updated, StringFormat=HH:mm:ss dd.MM.yyyy}"/>
+                                            <DataGridTextColumn Header="Создано"        Binding="{Binding Created, StringFormat=HH:mm:ss dd.MM.yyyy}"/>
+                                        </DataGrid.Columns>
+                                    </DataGrid>
 
-                                    <StackPanel Orientation="Horizontal">
-                                        <Label Content="Количество задач:"/>
-                                        <TextBlock Text="{Binding ListTasksView.Count}"
+                                    <Grid HorizontalAlignment="Right"
+                                          VerticalAlignment="Bottom"
+                                          Margin="0 0 10 20"
+                                          Opacity=".7">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <StackPanel Orientation="Horizontal">
+                                            <Label Content="Количество задач:"/>
+                                            <TextBlock Text="{Binding ListTasksView.Count}"
                                                    VerticalAlignment="Center"/>
-                                    </StackPanel>
+                                        </StackPanel>
+
+                                    </Grid>
+
+                                    <Grid>
+                                        <ProgressBar Style="{StaticResource MaterialDesignCircularProgressBar}"
+                                                     Value="0"
+                                                     IsIndeterminate="True"
+                                                     Height="50"
+                                                     Width="50"
+                                                     Foreground="Red"
+                                                     Visibility="{Binding Connector.ListTaskUpdating, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                                    </Grid>
 
                                 </Grid>
 
-                                <Grid>
+
+                                <Grid Grid.Column="1"
+                                      Visibility="{Binding ShowTimeSpentDetailed, Converter={StaticResource BooleanToVisibilityConverter}}">
+
+                                    <DataGrid Background="#e3f2fd"
+                                              ItemsSource="{Binding SelectedTask.TimeSpentDetailes}"
+                                              d:ItemsSource="{d:SampleData ItemCount=10}"
+                                              AutoGenerateColumns="False"
+                                              IsReadOnly="True">
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn Header="Время" Binding="{Binding Spent}"/>
+                                            <DataGridTextColumn Header="Автор" Binding="{Binding User.Name}"/>
+                                            <DataGridTextColumn Header="Дата"  Binding="{Binding Date, StringFormat=HH:mm:ss dd.MM.yyyy}"/>
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+
                                     <ProgressBar Style="{StaticResource MaterialDesignCircularProgressBar}"
                                                  Value="0"
                                                  IsIndeterminate="True"
                                                  Height="50"
                                                  Width="50"
                                                  Foreground="Red"
-                                                 Visibility="{Binding Connector.ListTaskUpdating, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-                                </Grid>
+                                                 Visibility="{Binding UpdatingTimeLog, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+
+                                </Grid> 
 
                             </Grid>
                         
@@ -415,31 +448,6 @@
                     </md:TransitionerSlide>
                     
                 </md:Transitioner>
-
-            </Grid>
-
-            <Grid Grid.Column="2"
-                  Visibility="{Binding ShowTimeSpentDetailed, Converter={StaticResource BooleanToVisibilityConverter}}">
-
-                <DataGrid Background="#e3f2fd"
-                          ItemsSource="{Binding SelectedTask.TimeSpentDetailes}"
-                          d:ItemsSource="{d:SampleData ItemCount=10}"
-                          AutoGenerateColumns="False"
-                          IsReadOnly="True">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="Время" Binding="{Binding Spent}"/>
-                        <DataGridTextColumn Header="Автор" Binding="{Binding User.Name}"/>
-                        <DataGridTextColumn Header="Дата"  Binding="{Binding Date, StringFormat=HH:mm:ss dd.MM.yyyy}"/>
-                    </DataGrid.Columns>
-                </DataGrid>
-
-                <ProgressBar Style="{StaticResource MaterialDesignCircularProgressBar}"
-                             Value="0"
-                             IsIndeterminate="True"
-                             Height="50"
-                             Width="50"
-                             Foreground="Red"
-                             Visibility="{Binding UpdatingTimeLog, Converter={StaticResource BooleanToVisibilityConverter}}"/>
 
             </Grid>
 
