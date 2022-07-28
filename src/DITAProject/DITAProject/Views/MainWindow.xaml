@@ -5,7 +5,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ITAJira"
-        xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d"
         Background="#e3f2fd"
         Title="ITA Jira - DITA group"
@@ -246,118 +246,175 @@
                     <RowDefinition/>
                 </Grid.RowDefinitions>
 
-                <Grid Grid.Row="0"
-                      Height="50">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition MaxWidth="300"/>
-                        <ColumnDefinition />
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition Width="auto"/>
-                    </Grid.ColumnDefinitions>
+                <md:Transitioner Grid.Row="1"
+                                 SelectedIndex="0" 
+                                 AutoApplyTransitionOrigins="True">
 
-                    <Button Grid.Column="0"
-                            Margin="5 0"
-                            Content="Задачи"
-                            Command="{Binding Connector.GetTaskCommand}"/>
+                    <md:TransitionerSlide OpeningEffect="{md:TransitionEffect Kind=ExpandIn}"
+                                          ClipToBounds="True">
+                        <md:TransitionerSlide.ForwardWipe>
+                            <md:CircleWipe />
+                        </md:TransitionerSlide.ForwardWipe>
 
-                    <Button Grid.Column="1"
-                            Margin="5 0"
-                            Content="Открыть задачу"
-                            Visibility="{Binding ReportPageVisibility, Converter={StaticResource InvertBool}}"
-                            Command="{Binding OpenSelectedTaskCommand}"/>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
 
-                    <TextBox Grid.Column="2"
-                             Margin="5 0"
-                             Text="{Binding TextToFilterListTasks, UpdateSourceTrigger=PropertyChanged}"
-                             VerticalAlignment="Center"
-                             VerticalContentAlignment="Bottom"
-                             Height="35"
-                             Visibility="{Binding ReportPageVisibility, Converter={StaticResource InvertBool}}"
-                             md:HintAssist.Hint="{md:PackIcon Kind=Magnify}"
-                             md:TextFieldAssist.HasClearButton="True"/>
+                            <Grid Grid.Row="0"
+                                  Height="50">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition MaxWidth="300"/>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="auto"/>
+                                </Grid.ColumnDefinitions>
 
-                    <Button Grid.Column="4"
-                            Margin="5 0"
-                            Content="Диаграмма"
-                            Command="{Binding ShowCloseReportCommand}"/>
+                                <Button Grid.Column="0"
+                                        Margin="5 0"
+                                        Content="Задачи"
+                                        Command="{Binding Connector.GetTaskCommand}"/>
 
-                    <Button Grid.Column="5"
-                            Margin="5 0"
-                            Content="Время задачи"
-                            Visibility="{Binding ReportPageVisibility, Converter={StaticResource InvertBool}}"
-                            Command="{Binding ShowCloseSpentCurrentTaskCommand}"/>
+                                <Button Grid.Column="1"
+                                        Margin="5 0"
+                                        Content="Открыть задачу"
+                                        Visibility="{Binding ReportPageVisibility, Converter={StaticResource InvertBool}}"
+                                        Command="{Binding OpenSelectedTaskCommand}"/>
 
-                </Grid>
+                                <TextBox Grid.Column="2"
+                                         Margin="5 0"
+                                         Text="{Binding TextToFilterListTasks, UpdateSourceTrigger=PropertyChanged}"
+                                         VerticalAlignment="Center"
+                                         VerticalContentAlignment="Bottom"
+                                         Height="35"
+                                         Visibility="{Binding ReportPageVisibility, Converter={StaticResource InvertBool}}"
+                                         md:HintAssist.Hint="{md:PackIcon Kind=Magnify}"
+                                         md:TextFieldAssist.HasClearButton="True"/>
 
-                <DataGrid Grid.Row="1"
-                          Background="#e3f2fd"
-                          ItemsSource="{Binding ListTasksView}"
-                          d:ItemsSource="{d:SampleData ItemCount=15}"
-                          SelectedItem="{Binding SelectedTask}"
-                          AutoGenerateColumns="False"
-                          IsReadOnly="True">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="Номер"          Binding="{Binding Key}"/>
-                        <DataGridTextColumn Header="Статус"         Binding="{Binding Status}"/>
-                        <DataGridTextColumn Header="Тема"           Binding="{Binding Summary}" MaxWidth="500"/>
-                        <DataGridTextColumn Header="Автор"          Binding="{Binding ReporterUser.Name}"/>
-                        <DataGridTextColumn Header="Ответственный"  Binding="{Binding AssigneeUser.Name}"/>
-                        <DataGridTextColumn Header="Время"          Binding="{Binding TimeSpent}"/>
-                        <DataGridTextColumn Header="Изменено"       Binding="{Binding Updated, StringFormat=HH:mm:ss dd.MM.yyyy}"/>
-                        <DataGridTextColumn Header="Создано"        Binding="{Binding Created, StringFormat=HH:mm:ss dd.MM.yyyy}"/>
-                    </DataGrid.Columns>
-                </DataGrid>
+                                <Button Grid.Column="4"
+                                        Margin="5 0"
+                                        Content="Диаграмма">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="Click">
+                                            <i:InvokeCommandAction Command="{x:Static md:Transitioner.MoveNextCommand}"/>
+                                            <i:InvokeCommandAction Command="{Binding ShowCloseReportCommand}" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </Button>
+                                
+                                <Button Grid.Column="5"
+                                        Margin="5 0"
+                                        Content="Время задачи"
+                                        Visibility="{Binding ReportPageVisibility, Converter={StaticResource InvertBool}}"
+                                        Command="{Binding ShowCloseSpentCurrentTaskCommand}"/>
 
-                <Grid Grid.Row="1"
-                      HorizontalAlignment="Right"
-                      VerticalAlignment="Bottom"
-                      Margin="0 0 10 20"
-                      Opacity=".7">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
+                            </Grid>
 
-                    <StackPanel Orientation="Horizontal">
-                        <Label Content="Количество задач:"/>
-                        <TextBlock Text="{Binding ListTasksView.Count}"
-                                   VerticalAlignment="Center"/>
-                    </StackPanel>
 
-                </Grid>
+                            <Grid Grid.Row="1">
 
-                <Grid Grid.Row="1">
-                    <ProgressBar Style="{StaticResource MaterialDesignCircularProgressBar}"
-                                 Value="0"
-                                 IsIndeterminate="True"
-                                 Height="50"
-                                 Width="50"
-                                 Foreground="Red"
-                                 Visibility="{Binding Connector.ListTaskUpdating, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-                </Grid>
+                                <DataGrid Background="#e3f2fd"
+                                          ItemsSource="{Binding ListTasksView}"
+                                          d:ItemsSource="{d:SampleData ItemCount=15}"
+                                          SelectedItem="{Binding SelectedTask}"
+                                          AutoGenerateColumns="False"
+                                          IsReadOnly="True">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="Номер"          Binding="{Binding Key}"/>
+                                        <DataGridTextColumn Header="Статус"         Binding="{Binding Status}"/>
+                                        <DataGridTextColumn Header="Тема"           Binding="{Binding Summary}" MaxWidth="500"/>
+                                        <DataGridTextColumn Header="Автор"          Binding="{Binding ReporterUser.Name}"/>
+                                        <DataGridTextColumn Header="Ответственный"  Binding="{Binding AssigneeUser.Name}"/>
+                                        <DataGridTextColumn Header="Время"          Binding="{Binding TimeSpent}"/>
+                                        <DataGridTextColumn Header="Изменено"       Binding="{Binding Updated, StringFormat=HH:mm:ss dd.MM.yyyy}"/>
+                                        <DataGridTextColumn Header="Создано"        Binding="{Binding Created, StringFormat=HH:mm:ss dd.MM.yyyy}"/>
+                                    </DataGrid.Columns>
+                                </DataGrid>
 
-                <Grid Grid.Row="1"
-                      Background="#e3f2fd"
-                      Visibility="{Binding ReportPageVisibility, Converter={StaticResource BooleanToVisibilityConverter}}">
-                    <Grid.RowDefinitions>
-                        <RowDefinition/>
-                        <RowDefinition Height="auto"/>
-                    </Grid.RowDefinitions>
+                                <Grid HorizontalAlignment="Right"
+                                      VerticalAlignment="Bottom"
+                                      Margin="0 0 10 20"
+                                      Opacity=".7">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
 
-                    <Frame Grid.Row="0"
-                           x:Name="FramePage"
-                           NavigationUIVisibility="Hidden"
-                           Content="{Binding ReportPage}"/>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Label Content="Количество задач:"/>
+                                        <TextBlock Text="{Binding ListTasksView.Count}"
+                                                   VerticalAlignment="Center"/>
+                                    </StackPanel>
 
-                    <Button Grid.Row="1"
-                            DataContext="{Binding Source={StaticResource VMLoader}, Path=ReportPage}"
-                            Width="200"
-                            Margin="0 20"
-                            Content="Reset"
-                            Command="{Binding ResetZoomCommand}"/>
+                                </Grid>
 
-                </Grid>
+                                <Grid>
+                                    <ProgressBar Style="{StaticResource MaterialDesignCircularProgressBar}"
+                                                 Value="0"
+                                                 IsIndeterminate="True"
+                                                 Height="50"
+                                                 Width="50"
+                                                 Foreground="Red"
+                                                 Visibility="{Binding Connector.ListTaskUpdating, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                                </Grid>
+
+                            </Grid>
+                        
+                        </Grid>
+                    
+                    </md:TransitionerSlide>
+
+                    <md:TransitionerSlide OpeningEffect="{md:TransitionEffect Kind=ExpandIn}"
+                                          ClipToBounds="True">
+                        <md:TransitionerSlide.BackwardWipe>
+                            <md:CircleWipe />
+                        </md:TransitionerSlide.BackwardWipe>
+
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+
+                            <Button Grid.Row="0"
+                                    Margin="5 0"
+                                    HorizontalAlignment="Center"
+                                    Content="К списку задач">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Click">
+                                        <i:InvokeCommandAction Command="{x:Static md:Transitioner.MovePreviousCommand}"/>
+                                        <i:InvokeCommandAction Command="{Binding ShowCloseReportCommand}" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </Button>
+
+                            <Grid Grid.Row="1"
+                                  Background="#e3f2fd"
+                                  Visibility="{Binding ReportPageVisibility, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition Height="auto"/>
+                                </Grid.RowDefinitions>
+
+                                <Frame Grid.Row="0"
+                                       x:Name="FramePage"
+                                       NavigationUIVisibility="Hidden"
+                                       Content="{Binding ReportPage}"/>
+
+                                <Button Grid.Row="1"
+                                        DataContext="{Binding Source={StaticResource VMLoader}, Path=ReportPage}"
+                                        Width="200"
+                                        Margin="0 20"
+                                        Content="Reset"
+                                        Command="{Binding ResetZoomCommand}"/>
+
+                            </Grid>
+                        </Grid>
+                    </md:TransitionerSlide>
+                    
+                </md:Transitioner>
 
             </Grid>
 

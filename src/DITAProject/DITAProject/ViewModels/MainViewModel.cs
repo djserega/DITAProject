@@ -190,7 +190,9 @@ namespace ITAJira.ViewModels
 
         public bool ShowTimeSpentDetailed { get; set; }
 
-        public ICommand ShowCloseSpentCurrentTaskCommand { get => new DelegateCommand(() =>
+        public ICommand ShowCloseSpentCurrentTaskCommand
+        {
+            get => new DelegateCommand(() =>
         {
             ShowTimeSpentDetailed = !ShowTimeSpentDetailed;
         }, () => { return SelectedTask != null; });
@@ -228,7 +230,7 @@ namespace ITAJira.ViewModels
                 else
                 {
                     ReportPageVisibility = false;
-                    MessageBox.Show("Нет задач для вывода в отчет");
+                    //MessageBox.Show("Нет задач для вывода в отчет");
                 }
             }
             else
