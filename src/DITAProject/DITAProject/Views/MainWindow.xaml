@@ -66,225 +66,246 @@
         </Grid>
 
         <Grid Grid.Row="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition/>
-                <ColumnDefinition Width="auto"/>
-            </Grid.ColumnDefinitions>
 
-            <Grid Grid.Column="0">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="30*"/>
-                    <RowDefinition Height="70*"/>
-                </Grid.RowDefinitions>
-
-                <Grid Grid.Row="0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-
-                    <DatePicker Grid.Column="0"
-                                SelectedDate="{Binding DateTimeStartPeriod}"/>
-                    <TextBlock Grid.Column="1"
-                               Text=" - "
-                               VerticalAlignment="Center"/>
-                    <DatePicker Grid.Column="2"
-                                SelectedDate="{Binding DateTimeEndPeriod}"/>
-                </Grid>
-
-                <Grid Grid.Row="1">
-
-                    <ListView ItemsSource="{Binding FilterUsers}"
-                              d:ItemsSource="{d:SampleData ItemCount=5}"
-                              SelectedItem="{Binding SelectedFilterUser}">
-
-                        <ListView.InputBindings>
-                            <KeyBinding Gesture="Space"
-                                    Command="{Binding ChangeIsCheckedUserCommand}"/>
-                        </ListView.InputBindings>
-
-                        <ListView.ItemTemplate>
-                            <ItemContainerTemplate>
-                                <Grid Margin="0 -10">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition/>
-                                        <ColumnDefinition/>
-                                    </Grid.ColumnDefinitions>
-
-                                    <CheckBox Grid.Column="0"
-                                              IsChecked="{Binding IsChecked}">
-
-                                        <CheckBox.InputBindings>
-                                            <MouseBinding MouseAction="LeftClick"
-                                                          Command="{Binding ChandeCheckMarkCommand}"
-                                                          CommandParameter="{Binding User.Name}"/>
-                                        </CheckBox.InputBindings>
-
-                                    </CheckBox>
-                                    <md:Chip Grid.Column="1"
-                                             Content="{Binding User.Name}">
-                                        <md:Chip.Icon>
-                                            <Image Source="{Binding User.AvatarImage}" />
-                                        </md:Chip.Icon>
-                                        <md:Chip.InputBindings>
-                                            <MouseBinding MouseAction="LeftClick"
-                                                          Command="{Binding ChandeCheckMarkCommand}"
-                                                          CommandParameter="{Binding User.Name}"/>
-                                        </md:Chip.InputBindings>
-
-                                    </md:Chip>
-
-                                </Grid>
-                            </ItemContainerTemplate>
-                        </ListView.ItemTemplate>
-
-                    </ListView>
-
-                    <Grid HorizontalAlignment="Right"
-                          VerticalAlignment="Top"
-                          Margin="0 10 20 0"
-                          Opacity=".3">
+            <md:DrawerHost BorderThickness="2"
+                           BorderBrush="{DynamicResource MaterialDesignDivider}"
+                           BottomDrawerCornerRadius="20 20 0 0"
+                           BottomDrawerBackground="{DynamicResource SecondaryHueLightBrush}">
+                <md:DrawerHost.Style>
+                    <Style TargetType="md:DrawerHost"
+                           BasedOn="{StaticResource {x:Type md:DrawerHost}}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsChecked, ElementName=BackgroundToggle}" 
+                                         Value="True">
+                                <Setter Property="OverlayBackground"
+                                        Value="{DynamicResource PrimaryHueMidBrush}" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </md:DrawerHost.Style>
+                <md:DrawerHost.LeftDrawerContent>
+                    
+                    <Grid Grid.Column="0"
+                          Background="#e3f2fd">
                         <Grid.RowDefinitions>
-                            <RowDefinition />
-                            <RowDefinition />
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="30*"/>
+                            <RowDefinition Height="70*"/>
                         </Grid.RowDefinitions>
 
-                        <Button Grid.Row="0"
-                                Margin="0 5"
-                                Content="{md:PackIcon Kind=CheckAll}"
-                                Command="{Binding CheckAllUsersCommand}"/>
+                        <Grid Grid.Row="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
 
-                        <Button Grid.Row="1"
-                                Margin="0 5"
-                                Content="{md:PackIcon Kind=CheckboxMultipleBlankOutline}"
-                                Command="{Binding UnCheckAllUsersCommand}"/>
+                            <DatePicker Grid.Column="0"
+                                        SelectedDate="{Binding DateTimeStartPeriod}"/>
+                            <TextBlock Grid.Column="1"
+                                       Text=" - "
+                                       VerticalAlignment="Center"/>
+                            <DatePicker Grid.Column="2"
+                                        SelectedDate="{Binding DateTimeEndPeriod}"/>
+                        </Grid>
+
+                        <Grid Grid.Row="1">
+
+                            <ListView ItemsSource="{Binding FilterUsers}"
+                                      d:ItemsSource="{d:SampleData ItemCount=5}"
+                                      SelectedItem="{Binding SelectedFilterUser}">
+
+                                <ListView.InputBindings>
+                                    <KeyBinding Gesture="Space"
+                                                Command="{Binding ChangeIsCheckedUserCommand}"/>
+                                </ListView.InputBindings>
+
+                                <ListView.ItemTemplate>
+                                    <ItemContainerTemplate>
+                                        <Grid Margin="0 -10">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <CheckBox Grid.Column="0"
+                                                      IsChecked="{Binding IsChecked}">
+
+                                                <CheckBox.InputBindings>
+                                                    <MouseBinding MouseAction="LeftClick"
+                                                                  Command="{Binding ChandeCheckMarkCommand}"
+                                                                  CommandParameter="{Binding User.Name}"/>
+                                                </CheckBox.InputBindings>
+
+                                            </CheckBox>
+                                            <md:Chip Grid.Column="1"
+                                                     Content="{Binding User.Name}">
+                                                <md:Chip.Icon>
+                                                    <Image Source="{Binding User.AvatarImage}" />
+                                                </md:Chip.Icon>
+                                                <md:Chip.InputBindings>
+                                                    <MouseBinding MouseAction="LeftClick"
+                                                                  Command="{Binding ChandeCheckMarkCommand}"
+                                                                  CommandParameter="{Binding User.Name}"/>
+                                                </md:Chip.InputBindings>
+
+                                            </md:Chip>
+
+                                        </Grid>
+                                    </ItemContainerTemplate>
+                                </ListView.ItemTemplate>
+
+                            </ListView>
+
+                            <Grid HorizontalAlignment="Right"
+                                  VerticalAlignment="Top"
+                                  Margin="0 10 20 0"
+                                  Opacity=".3">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+
+                                <Button Grid.Row="0"
+                                        Margin="0 5"
+                                        Content="{md:PackIcon Kind=CheckAll}"
+                                        Command="{Binding CheckAllUsersCommand}"/>
+
+                                <Button Grid.Row="1"
+                                        Margin="0 5"
+                                        Content="{md:PackIcon Kind=CheckboxMultipleBlankOutline}"
+                                        Command="{Binding UnCheckAllUsersCommand}"/>
+
+                            </Grid>
+
+                        </Grid>
+
+                        <Grid Grid.Row="2">
+
+                            <ListView ItemsSource="{Binding ListStatuses}"
+                                      d:ItemsSource="{d:SampleData ItemCount=10}"
+                                      SelectedItem="{Binding SelectedStatus}">
+
+                                <ListView.InputBindings>
+                                    <KeyBinding Gesture="Space"
+                                                Command="{Binding ChangeIsCheckedStatusCommand}"/>
+                                </ListView.InputBindings>
+
+                                <ListView.ItemTemplate>
+                                    <ItemContainerTemplate>
+                                        <Grid >
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition />
+                                                <ColumnDefinition Width="5"/>
+                                                <ColumnDefinition Width="200"/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <CheckBox Grid.Column="0"
+                                                      IsChecked="{Binding IsChecked}">
+
+                                                <CheckBox.InputBindings>
+                                                    <MouseBinding MouseAction="LeftClick"
+                                                                  Command="{Binding ChandeCheckMarkCommand}"
+                                                                  CommandParameter="{Binding Name}"/>
+                                                </CheckBox.InputBindings>
+
+                                            </CheckBox>
+
+                                            <TextBlock Grid.Column="2"
+                                                       VerticalAlignment="Center"
+                                                       Text="{Binding Name}">
+
+                                                <TextBlock.InputBindings>
+                                                    <MouseBinding MouseAction="LeftClick"
+                                                                  Command="{Binding ChandeCheckMarkCommand}"
+                                                                  CommandParameter="{Binding Name}"/>
+                                                </TextBlock.InputBindings>
+
+                                            </TextBlock>
+
+                                        </Grid>
+                                    </ItemContainerTemplate>
+                                </ListView.ItemTemplate>
+
+                            </ListView>
+
+                            <Grid HorizontalAlignment="Right"
+                                  VerticalAlignment="Top"
+                                  Margin="0 10 20 0"
+                                  Opacity=".3">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+
+                                <Button Grid.Row="0"
+                                        Margin="0 5"
+                                        Content="{md:PackIcon Kind=CheckAll}"
+                                        Command="{Binding CheckAllStatusesCommand}"/>
+
+                                <Button Grid.Row="1"
+                                        Margin="0 5"
+                                        Content="{md:PackIcon Kind=CheckboxMultipleBlankOutline}"
+                                        Command="{Binding UnCheckAllStatusesCommand}"/>
+
+                            </Grid>
+
+                        </Grid>
 
                     </Grid>
 
-                </Grid>
+                </md:DrawerHost.LeftDrawerContent>
 
-                <Grid Grid.Row="2">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
 
-                    <ListView ItemsSource="{Binding ListStatuses}"
-                              d:ItemsSource="{d:SampleData ItemCount=10}"
-                              SelectedItem="{Binding SelectedStatus}">
-
-                        <ListView.InputBindings>
-                            <KeyBinding Gesture="Space"
-                                    Command="{Binding ChangeIsCheckedStatusCommand}"/>
-                        </ListView.InputBindings>
-
-                        <ListView.ItemTemplate>
-                            <ItemContainerTemplate>
-                                <Grid >
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition />
-                                        <ColumnDefinition Width="5"/>
-                                        <ColumnDefinition Width="200"/>
-                                    </Grid.ColumnDefinitions>
-
-                                    <CheckBox Grid.Column="0"
-                                              IsChecked="{Binding IsChecked}">
-
-                                        <CheckBox.InputBindings>
-                                            <MouseBinding MouseAction="LeftClick"
-                                                          Command="{Binding ChandeCheckMarkCommand}"
-                                                          CommandParameter="{Binding Name}"/>
-                                        </CheckBox.InputBindings>
-
-                                    </CheckBox>
-
-                                    <TextBlock Grid.Column="2"
-                                               VerticalAlignment="Center"
-                                               Text="{Binding Name}">
-
-                                        <TextBlock.InputBindings>
-                                            <MouseBinding MouseAction="LeftClick"
-                                                          Command="{Binding ChandeCheckMarkCommand}"
-                                                          CommandParameter="{Binding Name}"/>
-                                        </TextBlock.InputBindings>
-
-                                    </TextBlock>
-
-                                </Grid>
-                            </ItemContainerTemplate>
-                        </ListView.ItemTemplate>
-
-                    </ListView>
-
-                    <Grid HorizontalAlignment="Right"
-                          VerticalAlignment="Top"
-                          Margin="0 10 20 0"
-                          Opacity=".3">
-                        <Grid.RowDefinitions>
-                            <RowDefinition />
-                            <RowDefinition />
-                        </Grid.RowDefinitions>
-
-                        <Button Grid.Row="0"
-                                Margin="0 5"
-                                Content="{md:PackIcon Kind=CheckAll}"
-                                Command="{Binding CheckAllStatusesCommand}"/>
-
-                        <Button Grid.Row="1"
-                                Margin="0 5"
-                                Content="{md:PackIcon Kind=CheckboxMultipleBlankOutline}"
-                                Command="{Binding UnCheckAllStatusesCommand}"/>
-
-                    </Grid>
-
-                </Grid>
-
-            </Grid>
-
-            <Grid Grid.Column="1">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition/>
-                </Grid.RowDefinitions>
-
-                <md:Transitioner Grid.Row="1"
+                    <md:Transitioner Grid.Row="1"
                                  SelectedIndex="0" 
                                  AutoApplyTransitionOrigins="True">
 
-                    <md:TransitionerSlide OpeningEffect="{md:TransitionEffect Kind=ExpandIn}"
+                        <md:TransitionerSlide OpeningEffect="{md:TransitionEffect Kind=ExpandIn}"
                                           ClipToBounds="True">
-                        <md:TransitionerSlide.ForwardWipe>
-                            <md:CircleWipe />
-                        </md:TransitionerSlide.ForwardWipe>
+                            <md:TransitionerSlide.ForwardWipe>
+                                <md:CircleWipe />
+                            </md:TransitionerSlide.ForwardWipe>
 
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="auto"/>
-                                <RowDefinition/>
-                            </Grid.RowDefinitions>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
 
-                            <Grid Grid.Row="0"
+                                <Grid Grid.Row="0"
                                   Height="50">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="auto"/>
-                                    <ColumnDefinition Width="auto"/>
-                                    <ColumnDefinition MaxWidth="300"/>
-                                    <ColumnDefinition />
-                                    <ColumnDefinition Width="auto"/>
-                                    <ColumnDefinition Width="auto"/>
-                                </Grid.ColumnDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="auto"/>
+                                        <ColumnDefinition Width="auto"/>
+                                        <ColumnDefinition Width="auto"/>
+                                        <ColumnDefinition MaxWidth="300"/>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition Width="auto"/>
+                                        <ColumnDefinition Width="auto"/>
+                                    </Grid.ColumnDefinitions>
 
-                                <Button Grid.Column="0"
+                                    <Button Command="{x:Static md:DrawerHost.OpenDrawerCommand}"
+                                            CommandParameter="{x:Static Dock.Left}"
+                                            Content="{md:PackIcon Kind=Filter}" />
+
+                                    <Button Grid.Column="1"
                                         Margin="5 0"
                                         Content="Задачи"
                                         Command="{Binding Connector.GetTaskCommand}"/>
 
-                                <Button Grid.Column="1"
+                                    <Button Grid.Column="2"
                                         Margin="5 0"
                                         Content="Открыть задачу"
                                         Visibility="{Binding ReportPageVisibility, Converter={StaticResource InvertBool}}"
                                         Command="{Binding OpenSelectedTaskCommand}"/>
 
-                                <TextBox Grid.Column="2"
+                                    <TextBox Grid.Column="3"
                                          Margin="5 0"
                                          Text="{Binding TextToFilterListTasks, UpdateSourceTrigger=PropertyChanged}"
                                          VerticalAlignment="Center"
@@ -294,162 +315,167 @@
                                          md:HintAssist.Hint="{md:PackIcon Kind=Magnify}"
                                          md:TextFieldAssist.HasClearButton="True"/>
 
-                                <Button Grid.Column="4"
+                                    <Button Grid.Column="5"
                                         Margin="5 0"
                                         Content="Диаграмма">
-                                    <i:Interaction.Triggers>
-                                        <i:EventTrigger EventName="Click">
-                                            <i:InvokeCommandAction Command="{x:Static md:Transitioner.MoveNextCommand}"/>
-                                            <i:InvokeCommandAction Command="{Binding ShowCloseReportCommand}" />
-                                        </i:EventTrigger>
-                                    </i:Interaction.Triggers>
-                                </Button>
-                                
-                                <Button Grid.Column="5"
-                                        Margin="5 0"
-                                        Content="Время задачи"
-                                        Visibility="{Binding ReportPageVisibility, Converter={StaticResource InvertBool}}"
-                                        Command="{Binding ShowCloseSpentCurrentTaskCommand}"/>
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="Click">
+                                                <i:InvokeCommandAction Command="{x:Static md:Transitioner.MoveNextCommand}"/>
+                                                <i:InvokeCommandAction Command="{Binding ShowCloseReportCommand}" />
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </Button>
 
-                            </Grid>
+                                    <Button Grid.Column="6"
+                                            Margin="5 0"
+                                            Content="Время задачи"
+                                            Visibility="{Binding ReportPageVisibility, Converter={StaticResource InvertBool}}"
+                                            Command="{Binding ShowCloseSpentCurrentTaskCommand}"/>
 
-                            <Grid Grid.Row="1">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition/>
-                                    <ColumnDefinition Width="auto"/>
-                                </Grid.ColumnDefinitions>
+                                </Grid>
 
-                                <Grid Grid.Column="0">
+                                <Grid Grid.Row="1">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition Width="auto"/>
+                                    </Grid.ColumnDefinitions>
 
-                                    <DataGrid Background="#e3f2fd"
+                                    <Grid Grid.Column="0">
+
+                                        <DataGrid Background="#e3f2fd"
                                               ItemsSource="{Binding ListTasksView}"
                                               d:ItemsSource="{d:SampleData ItemCount=15}"
                                               SelectedItem="{Binding SelectedTask}"
                                               AutoGenerateColumns="False"
                                               IsReadOnly="True">
-                                        <DataGrid.Columns>
-                                            <DataGridTextColumn Header="Номер"          Binding="{Binding Key}"/>
-                                            <DataGridTextColumn Header="Статус"         Binding="{Binding Status}"/>
-                                            <DataGridTextColumn Header="Тема"           Binding="{Binding Summary}" MaxWidth="500"/>
-                                            <DataGridTextColumn Header="Автор"          Binding="{Binding ReporterUser.Name}"/>
-                                            <DataGridTextColumn Header="Ответственный"  Binding="{Binding AssigneeUser.Name}"/>
-                                            <DataGridTextColumn Header="Время"          Binding="{Binding TimeSpent}"/>
-                                            <DataGridTextColumn Header="Изменено"       Binding="{Binding Updated, StringFormat=HH:mm:ss dd.MM.yyyy}"/>
-                                            <DataGridTextColumn Header="Создано"        Binding="{Binding Created, StringFormat=HH:mm:ss dd.MM.yyyy}"/>
-                                        </DataGrid.Columns>
-                                    </DataGrid>
+                                            <DataGrid.Columns>
+                                                <DataGridTextColumn Header="Номер"          Binding="{Binding Key}"/>
+                                                <DataGridTextColumn Header="Статус"         Binding="{Binding Status}"/>
+                                                <DataGridTextColumn Header="Тема"           Binding="{Binding Summary}" MaxWidth="500"/>
+                                                <DataGridTextColumn Header="Автор"          Binding="{Binding ReporterUser.Name}"/>
+                                                <DataGridTextColumn Header="Ответственный"  Binding="{Binding AssigneeUser.Name}"/>
+                                                <DataGridTextColumn Header="Время"          Binding="{Binding TimeSpent}"/>
+                                                <DataGridTextColumn Header="Изменено"       Binding="{Binding Updated, StringFormat=HH:mm:ss dd.MM.yyyy}"/>
+                                                <DataGridTextColumn Header="Создано"        Binding="{Binding Created, StringFormat=HH:mm:ss dd.MM.yyyy}"/>
+                                            </DataGrid.Columns>
+                                        </DataGrid>
 
-                                    <Grid HorizontalAlignment="Right"
+                                        <Grid HorizontalAlignment="Right"
                                           VerticalAlignment="Bottom"
                                           Margin="0 0 10 20"
                                           Opacity=".7">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition/>
-                                        </Grid.ColumnDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition/>
+                                            </Grid.ColumnDefinitions>
 
-                                        <StackPanel Orientation="Horizontal">
-                                            <Label Content="Количество задач:"/>
-                                            <TextBlock Text="{Binding ListTasksView.Count}"
+                                            <StackPanel Orientation="Horizontal">
+                                                <Label Content="Количество задач:"/>
+                                                <TextBlock Text="{Binding ListTasksView.Count}"
                                                    VerticalAlignment="Center"/>
-                                        </StackPanel>
+                                            </StackPanel>
 
-                                    </Grid>
+                                        </Grid>
 
-                                    <Grid>
-                                        <ProgressBar Style="{StaticResource MaterialDesignCircularProgressBar}"
+                                        <Grid>
+                                            <ProgressBar Style="{StaticResource MaterialDesignCircularProgressBar}"
                                                      Value="0"
                                                      IsIndeterminate="True"
                                                      Height="50"
                                                      Width="50"
                                                      Foreground="Red"
                                                      Visibility="{Binding Connector.ListTaskUpdating, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                                        </Grid>
+
+                                    </Grid>
+
+
+                                    <Grid Grid.Column="1"
+                                          Visibility="{Binding ShowTimeSpentDetailed, Converter={StaticResource BooleanToVisibilityConverter}}">
+
+                                        <DataGrid Background="#e3f2fd"
+                                                  BorderThickness="2"
+                                                  BorderBrush="{DynamicResource MaterialDesignDivider}"
+                                                  ItemsSource="{Binding SelectedTask.TimeSpentDetailes}"
+                                                  d:ItemsSource="{d:SampleData ItemCount=10}"
+                                                  AutoGenerateColumns="False"
+                                                  IsReadOnly="True">
+                                            <DataGrid.Columns>
+                                                <DataGridTextColumn Header="Время" Binding="{Binding Spent}"/>
+                                                <DataGridTextColumn Header="Автор" Binding="{Binding User.Name}"/>
+                                                <DataGridTextColumn Header="Дата"  Binding="{Binding Date, StringFormat=HH:mm:ss dd.MM.yyyy}"/>
+                                            </DataGrid.Columns>
+                                        </DataGrid>
+
+                                        <ProgressBar Style="{StaticResource MaterialDesignCircularProgressBar}"
+                                                     Value="0"
+                                                     IsIndeterminate="True"
+                                                     Height="50"
+                                                     Width="50"
+                                                     Foreground="Red"
+                                                     Visibility="{Binding UpdatingTimeLog, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+
                                     </Grid>
 
                                 </Grid>
 
-
-                                <Grid Grid.Column="1"
-                                      Visibility="{Binding ShowTimeSpentDetailed, Converter={StaticResource BooleanToVisibilityConverter}}">
-
-                                    <DataGrid Background="#e3f2fd"
-                                              ItemsSource="{Binding SelectedTask.TimeSpentDetailes}"
-                                              d:ItemsSource="{d:SampleData ItemCount=10}"
-                                              AutoGenerateColumns="False"
-                                              IsReadOnly="True">
-                                        <DataGrid.Columns>
-                                            <DataGridTextColumn Header="Время" Binding="{Binding Spent}"/>
-                                            <DataGridTextColumn Header="Автор" Binding="{Binding User.Name}"/>
-                                            <DataGridTextColumn Header="Дата"  Binding="{Binding Date, StringFormat=HH:mm:ss dd.MM.yyyy}"/>
-                                        </DataGrid.Columns>
-                                    </DataGrid>
-
-                                    <ProgressBar Style="{StaticResource MaterialDesignCircularProgressBar}"
-                                                 Value="0"
-                                                 IsIndeterminate="True"
-                                                 Height="50"
-                                                 Width="50"
-                                                 Foreground="Red"
-                                                 Visibility="{Binding UpdatingTimeLog, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-
-                                </Grid> 
-
                             </Grid>
-                        
-                        </Grid>
-                    
-                    </md:TransitionerSlide>
 
-                    <md:TransitionerSlide OpeningEffect="{md:TransitionEffect Kind=ExpandIn}"
+                        </md:TransitionerSlide>
+
+                        <md:TransitionerSlide OpeningEffect="{md:TransitionEffect Kind=ExpandIn}"
                                           ClipToBounds="True">
-                        <md:TransitionerSlide.BackwardWipe>
-                            <md:CircleWipe />
-                        </md:TransitionerSlide.BackwardWipe>
+                            <md:TransitionerSlide.BackwardWipe>
+                                <md:CircleWipe />
+                            </md:TransitionerSlide.BackwardWipe>
 
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="auto"/>
-                                <RowDefinition/>
-                            </Grid.RowDefinitions>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
 
-                            <Button Grid.Row="0"
+                                <Button Grid.Row="0"
                                     Margin="5 0"
                                     HorizontalAlignment="Center"
                                     Content="К списку задач">
-                                <i:Interaction.Triggers>
-                                    <i:EventTrigger EventName="Click">
-                                        <i:InvokeCommandAction Command="{x:Static md:Transitioner.MovePreviousCommand}"/>
-                                        <i:InvokeCommandAction Command="{Binding ShowCloseReportCommand}" />
-                                    </i:EventTrigger>
-                                </i:Interaction.Triggers>
-                            </Button>
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="Click">
+                                            <i:InvokeCommandAction Command="{x:Static md:Transitioner.MovePreviousCommand}"/>
+                                            <i:InvokeCommandAction Command="{Binding ShowCloseReportCommand}" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </Button>
 
-                            <Grid Grid.Row="1"
+                                <Grid Grid.Row="1"
                                   Background="#e3f2fd"
                                   Visibility="{Binding ReportPageVisibility, Converter={StaticResource BooleanToVisibilityConverter}}">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition/>
-                                    <RowDefinition Height="auto"/>
-                                </Grid.RowDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition Height="auto"/>
+                                    </Grid.RowDefinitions>
 
-                                <Frame Grid.Row="0"
+                                    <Frame Grid.Row="0"
                                        x:Name="FramePage"
                                        NavigationUIVisibility="Hidden"
                                        Content="{Binding ReportPage}"/>
 
-                                <Button Grid.Row="1"
+                                    <Button Grid.Row="1"
                                         DataContext="{Binding Source={StaticResource VMLoader}, Path=ReportPage}"
                                         Width="200"
                                         Margin="0 20"
                                         Content="Reset"
                                         Command="{Binding ResetZoomCommand}"/>
 
+                                </Grid>
                             </Grid>
-                        </Grid>
-                    </md:TransitionerSlide>
-                    
-                </md:Transitioner>
+                       
+                        </md:TransitionerSlide>
 
-            </Grid>
+                    </md:Transitioner>
+
+                </Grid>
+            
+            </md:DrawerHost>
 
         </Grid>
 
