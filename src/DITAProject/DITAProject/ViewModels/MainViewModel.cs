@@ -136,19 +136,14 @@ namespace ITAJira.ViewModels
             {
                 _selectedTask = value;
 
-                if (ShowTimeSpentDetailed)
+                if (_selectedTask == null)
                 {
-                    Task.Run(() =>
-                    {
-                        UpdatingTimeLog = true;
-
-                        IEnumerable<IssueChangeLog>? changeLogs = ConnectorTime.GetTimeSpentFromIssue(_selectedTask?.Key);
-                        if (_selectedTask != null && changeLogs != null)
-                            _selectedTask.FillTimeSpent(changeLogs);
-
-                        UpdatingTimeLog = false;
-                    });
+                    ShowTimeSpentDetailed = false;
+                    //RaisePropertiesChanged(nameof(ShowTimeSpentDetailed));
                 }
+
+                if (ShowTimeSpentDetailed)
+                    LoadDetailedTimeLogs();
             }
         }
 
@@ -195,6 +190,10 @@ namespace ITAJira.ViewModels
             get => new DelegateCommand(() =>
         {
             ShowTimeSpentDetailed = !ShowTimeSpentDetailed;
+
+            if (ShowTimeSpentDetailed)
+                LoadDetailedTimeLogs();
+
         }, () => { return SelectedTask != null; });
         }
 
@@ -281,5 +280,19 @@ namespace ITAJira.ViewModels
         }
         private bool TextToFilterContainsInFiels(string? value)
             => value?.Contains(TextToFilterListTasks, StringComparison.OrdinalIgnoreCase) ?? false;
+
+        private void LoadDetailedTimeLogs()
+        {
+            Task.Run(() =>
+            {
+                UpdatingTimeLog = true;
+
+                IEnumerable<IssueChangeLog>? changeLogs = ConnectorTime.GetTimeSpentFromIssue(_selectedTask?.Key);
+                if (_selectedTask != null && changeLogs != null)
+                    _selectedTask.FillTimeSpent(changeLogs);
+
+                UpdatingTimeLog = false;
+            });
+        }
     }
 }
