@@ -227,10 +227,7 @@ namespace ITAJira.ViewModels
                     SelectedTask = null;
                 }
                 else
-                {
                     ReportPageVisibility = false;
-                    //MessageBox.Show("Нет задач для вывода в отчет");
-                }
             }
             else
                 HideReportEvent?.Invoke(null, new EventArgs());
