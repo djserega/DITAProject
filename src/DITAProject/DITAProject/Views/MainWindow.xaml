@@ -8,7 +8,7 @@
         xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d"
         Background="#e3f2fd"
-        Title="ITA Jira - DITA group"
+        Title="{Binding TitleMainWindow}"
         Height="600"
         Width="1300">
     <Window.Resources>
@@ -21,7 +21,8 @@
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="0"
-              Margin="3">
+              Margin="3"
+              Visibility="{Binding ConnectionGridVisibility}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition Width="auto"/>

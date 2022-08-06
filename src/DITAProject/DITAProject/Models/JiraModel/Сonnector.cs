@@ -28,6 +28,8 @@ namespace ITAJira.Models.JiraModel
         internal static event EventHandler<List<Task>>? ListTaskUpdatingEvent;
         internal static event EventHandler<List<User>>? ListUsersInListTask;
 
+        internal static event EventHandler<bool>? InvokeConnectedCommandEvent;
+
         public string Address { get; set; }
         public string User { get; set; }
 
@@ -70,6 +72,8 @@ namespace ITAJira.Models.JiraModel
                     }
                 }
             }
+
+            InvokeConnectedCommandEvent?.Invoke(null, Connected);
         });
 
         public ICommand SetCurrentConnectionParameterToDefault => new DelegateCommand(() =>

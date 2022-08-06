@@ -16,6 +16,8 @@ namespace ITAJira.ViewModels
 {
     internal class MainViewModel : BindableBase, ISingleton
     {
+        private const string defaultTitleMainWindow = "ITA Jira - DITA group";
+
         public Models.JiraModel.Сonnector Connector { get; set; }
         public Models.JiraModel.Сonnector ConnectorTime { get; set; }
 
@@ -52,6 +54,15 @@ namespace ITAJira.ViewModels
             {
                 ChangeIsCheckedUserByName(userName);
             };
+
+            Models.JiraModel.Сonnector.InvokeConnectedCommandEvent += (object? sender, bool connected) =>
+            {
+                if (connected)
+                {
+                    TitleMainWindow = $"{defaultTitleMainWindow} / {Connector.Address.Trim("https:".ToArray()).Trim('/')} / {Connector.User}";
+                    ConnectionGridVisibility = Visibility.Collapsed;
+                }
+            };
         }
 
         private static Models.FilterUser ConverterJiraUserToFilterUser(Models.JiraModel.User user)
@@ -59,6 +70,9 @@ namespace ITAJira.ViewModels
 
         public DateTime DateTimeStartPeriod { get; set; } = DateTime.Now.AddDays(-7);
         public DateTime DateTimeEndPeriod { get; set; } = DateTime.Now;
+
+        public string TitleMainWindow { get; private set; } = defaultTitleMainWindow;
+        public Visibility ConnectionGridVisibility { get; private set; } = Visibility.Visible;
 
         #region Statuses
 
