@@ -20,8 +20,9 @@ namespace ITAJira.Models.JiraModel
 
 		internal static User AddUser(JiraUser user)
         {
-			if (Users.Any(el => el.AccountId == user.AccountId))
-				return Users.First(el => el.AccountId == user.AccountId);
+            //TODO: check used: AccountId or Key
+            if (Users.Any(el => el.AccountId == user.Key))
+				return Users.First(el => el.AccountId == user.Key);
 
 			User newUser = new User()
 				.FillUser(user);
@@ -33,7 +34,8 @@ namespace ITAJira.Models.JiraModel
 
         private User FillUser(JiraUser user)
         {
-			AccountId = user.AccountId;
+            //TODO: check used: AccountId or Key
+            AccountId = user.Key;
 			AvatarUrl = user.AvatarUrls.Large;
 			Name = user.DisplayName;
 			Email = user.Email;
