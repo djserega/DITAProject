@@ -149,7 +149,7 @@
                                                 <md:Chip Grid.Column="1"
                                                          Content="{Binding User.Name}">
                                                     <md:Chip.Icon>
-                                                        <Image Source="{Binding User.AvatarImage}" />
+                                                        <Image Source="{Binding User.AvatarImage}" Stretch="UniformToFill"/>
                                                     </md:Chip.Icon>
                                                     <md:Chip.InputBindings>
                                                         <MouseBinding MouseAction="LeftClick"
