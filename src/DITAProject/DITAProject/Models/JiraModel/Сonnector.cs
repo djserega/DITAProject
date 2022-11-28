@@ -142,6 +142,8 @@ namespace ITAJira.Models.JiraModel
                 Logger.Err($"Connecting error:\n{ex}");
                 if (ex.Message.Contains("Basic authentication with passwords is deprecated"))
                     MessageBox.Show("Не верный api-ключ");
+                else
+                    MessageBox.Show("Неизвестная ошибка авторизации");
             }
             catch (Exception ex)
             {
