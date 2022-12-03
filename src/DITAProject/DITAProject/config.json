@@ -1,6 +1,10 @@
 ﻿{
   "address": "https://<domain>",
   "user": "email",
-  "project": "",
+  "projects":
+  {
+	  "1":"",
+	  "2":""
+  },
   "debug": false
 }

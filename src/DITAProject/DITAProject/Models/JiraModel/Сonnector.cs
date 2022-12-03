@@ -325,10 +325,16 @@ namespace ITAJira.Models.JiraModel
             if (_jira == null)
                 return default;
 
-            if (string.IsNullOrEmpty(Config.Project))
-                return _jira.Issues.Queryable;
+            if (Config.Projects.Any())
+                return _jira.Issues.Queryable.Where(
+                    el =>
+
+                    el.Project == Config.Projects[0]
+                    || el.Project == Config.Projects[1]
+                    
+                    );
             else
-                return _jira.Issues.Queryable.Where(el => el.Project == Config.Project);
+                return _jira.Issues.Queryable;
         }
     }
 }

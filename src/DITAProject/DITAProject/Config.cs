@@ -27,15 +27,16 @@ namespace ITAJira
 
             Address = _config.GetValue<string>("address");
             User = _config.GetValue<string>("user");
-            Project = _config.GetValue<string>("project");
+            Projects[0] = _config.GetValue<string>("projects:1") ?? string.Empty;
+            Projects[1] = _config.GetValue<string>("projects:2") ?? string.Empty;
         }
 
-        internal static string NameConfig { get => _nameConfigJson; }
+        internal static string? NameConfig { get => _nameConfigJson; }
 
         internal static bool Debug { get; }
 
-        internal static string Address { get; }
-        internal static string User { get; }
-        internal static string Project { get; }
+        internal static string? Address { get; }
+        internal static string? User { get; }
+        internal static string[] Projects { get; } = new string[2];
     }
 }
