@@ -40,13 +40,13 @@
                 </Grid.ColumnDefinitions>
 
                 <Label Grid.Column="0" Grid.Row="0"
-                       Content="Адрес"/>
+                       Content="Адреса"/>
                 <TextBox Grid.Column="1" Grid.Row="0"
                          Margin="5 0"
                          Text="{Binding Connector.Address, UpdateSourceTrigger=PropertyChanged}"/>
 
                 <Label Grid.Column="0" Grid.Row="1"
-                       Content="Пользователь"/>
+                       Content="Користувач"/>
                 <TextBox Grid.Column="1" Grid.Row="1"
                          Margin="5 0"
                          Text="{Binding Connector.User, UpdateSourceTrigger=PropertyChanged}"/>
@@ -55,11 +55,11 @@
 
             <Button Grid.Column="1"
                     Margin="3 0"
-                    Content="Подключиться"
+                    Content="Підключитись"
                     Command="{Binding Connector.ConnectCommand}">
                 <Button.ContextMenu>
                     <ContextMenu>
-                        <MenuItem Header="Установить текущие значение по умолчанию"
+                        <MenuItem Header="Встановити по замовчуванню"
                                   Command="{Binding Connector.SetCurrentConnectionParameterToDefault}"/>
                     </ContextMenu>
                 </Button.ContextMenu>
@@ -311,12 +311,12 @@
 
                                     <Button Grid.Column="1"
                                             Margin="5 0"
-                                            Content="Задачи"
+                                            Content="Задачі"
                                             Command="{Binding Connector.GetTaskCommand}"/>
 
                                     <Button Grid.Column="2"
                                             Margin="5 0"
-                                            Content="Открыть задачу"
+                                            Content="Відкрити задачу"
                                             Visibility="{Binding ReportPageVisibility, Converter={StaticResource InvertBool}}"
                                             Command="{Binding OpenSelectedTaskCommand}"/>
 
@@ -332,7 +332,7 @@
 
                                     <Button Grid.Column="5"
                                             Margin="5 0"
-                                            Content="Диаграмма">
+                                            Content="Діаграма">
                                         <i:Interaction.Triggers>
                                             <i:EventTrigger EventName="Click">
                                                 <i:InvokeCommandAction Command="{x:Static md:Transitioner.MoveNextCommand}"/>
@@ -343,7 +343,7 @@
 
                                     <Button Grid.Column="6"
                                             Margin="5 0 2 0"
-                                            Content="Время задачи"
+                                            Content="Час задачі"
                                             Visibility="{Binding ReportPageVisibility, Converter={StaticResource InvertBool}}"
                                             Command="{Binding ShowCloseSpentCurrentTaskCommand}"/>
 
@@ -368,10 +368,10 @@
                                                 <DataGridTextColumn Header="Статус"         Binding="{Binding Status}"/>
                                                 <DataGridTextColumn Header="Тема"           Binding="{Binding Summary}" MaxWidth="500"/>
                                                 <DataGridTextColumn Header="Автор"          Binding="{Binding ReporterUser.Name}"/>
-                                                <DataGridTextColumn Header="Ответственный"  Binding="{Binding AssigneeUser.Name}"/>
-                                                <DataGridTextColumn Header="Время"          Binding="{Binding TimeSpent}"/>
-                                                <DataGridTextColumn Header="Изменено"       Binding="{Binding Updated, StringFormat=HH:mm:ss dd.MM.yyyy}"/>
-                                                <DataGridTextColumn Header="Создано"        Binding="{Binding Created, StringFormat=HH:mm:ss dd.MM.yyyy}"/>
+                                                <DataGridTextColumn Header="Відповідальний" Binding="{Binding AssigneeUser.Name}"/>
+                                                <DataGridTextColumn Header="Час"            Binding="{Binding TimeSpent}"/>
+                                                <DataGridTextColumn Header="Змінено"        Binding="{Binding Updated, StringFormat=HH:mm:ss dd.MM.yyyy}"/>
+                                                <DataGridTextColumn Header="Створено"       Binding="{Binding Created, StringFormat=HH:mm:ss dd.MM.yyyy}"/>
                                             </DataGrid.Columns>
                                         </DataGrid>
 
@@ -384,7 +384,7 @@
                                             </Grid.ColumnDefinitions>
 
                                             <StackPanel Orientation="Horizontal">
-                                                <Label Content="Количество задач:"/>
+                                                <Label Content="Кількість задач:"/>
                                                 <TextBlock Text="{Binding ListTasksView.Count}"
                                                            VerticalAlignment="Center"/>
                                             </StackPanel>
@@ -452,7 +452,7 @@
                                 <Button Grid.Row="0"
                                         Margin="5 0"
                                         HorizontalAlignment="Center"
-                                        Content="К списку задач">
+                                        Content="До списку задач">
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="Click">
                                             <i:InvokeCommandAction Command="{x:Static md:Transitioner.MovePreviousCommand}"/>

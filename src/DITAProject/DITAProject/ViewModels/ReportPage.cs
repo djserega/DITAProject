@@ -89,16 +89,18 @@ namespace ITAJira.ViewModels
 
                 Labels = listLabels.ToArray();
 
-                Series = new SeriesCollection
-            {
-                new RowSeries
+                if (_values.Any())
                 {
-                    Values = _values,
-                    DataLabels = true,
-                    LabelPoint = (ChartPoint obj) => { return GetStringSpentFromKeyLabel(obj.Key); }
+                    Series = new SeriesCollection
+                    {
+                        new RowSeries
+                        {
+                            Values = _values,
+                            DataLabels = true,
+                            LabelPoint = (ChartPoint obj) => { return GetStringSpentFromKeyLabel(obj.Key); }
+                        }
+                    };
                 }
-            };
-
             }
             catch (Exception ex)
             {

@@ -10,7 +10,7 @@
       mc:Ignorable="d" 
       d:DesignHeight="250" d:DesignWidth="800"
       Background="#e3f2fd"
-      Title="ReportPage">
+      Title="Звіт">
 
     <Grid>
         <lvc:CartesianChart Grid.Row="1"
