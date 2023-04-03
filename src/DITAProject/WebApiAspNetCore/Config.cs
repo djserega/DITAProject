@@ -7,16 +7,15 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ITAJira
+namespace WebApiAspNetCore
 {
-
-    internal static class Config
+    public class Config
     {
         private const string _nameConfigJson = "config.json";
 
         internal static string BaseDirectory { get => new FileInfo(Assembly.GetExecutingAssembly().Location).Directory?.FullName ?? string.Empty; }
 
-        static Config()
+        public Config()
         {
             IConfigurationRoot? _config = new ConfigurationBuilder()
                     .SetBasePath(BaseDirectory)
@@ -25,22 +24,18 @@ namespace ITAJira
 
             Debug = _config.GetValue<bool>("debug");
 
-            ApiServer = _config.GetValue<string>("apiServer");
             Address = _config.GetValue<string>("address");
             User = _config.GetValue<string>("user");
             Projects[0] = _config.GetValue<string>("projects:1") ?? string.Empty;
             Projects[1] = _config.GetValue<string>("projects:2") ?? string.Empty;
         }
 
-        internal static string NameConfig { get => _nameConfigJson; }
+        internal string NameConfig { get => _nameConfigJson; }
 
-        internal static bool Debug { get; }
+        internal bool Debug { get; }
 
-        internal static string? ApiServer { get; }
-        internal static bool UseApi { get => !string.IsNullOrWhiteSpace(ApiServer); }
-
-        internal static string? Address { get; }
-        internal static string? User { get; }
-        internal static string[] Projects { get; } = new string[2];
+        internal string? Address { get; }
+        internal string? User { get; }
+        internal string[] Projects { get; } = new string[2];
     }
 }

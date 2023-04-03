@@ -34,10 +34,13 @@ namespace ITAJira.ViewModels
         private void InitEvents()
         {
             Models.JiraModel.Сonnector.ListStatusUpdatingEvent += (object? sender, List<Models.JiraModel.TaskStatus> e) => ListStatuses = new(e);
-            Models.JiraModel.Сonnector.ListTaskUpdatingEvent += (object? sender, List<Models.JiraModel.Task> e) =>
+            Models.JiraModel.Сonnector.ListTaskUpdatingEvent += (object? sender, Models.JiraModel.Task[] e) =>
             {
-                ListTasks = new(e);
-                ListTasksView = CollectionViewSource.GetDefaultView(ListTasks);
+                if (e != default)
+                {
+                    ListTasks = new(e);
+                    ListTasksView = CollectionViewSource.GetDefaultView(ListTasks);
+                }
 
                 System.Windows.Application.Current.Dispatcher.Invoke(() => { ShowCloseReportPage(); });
             };

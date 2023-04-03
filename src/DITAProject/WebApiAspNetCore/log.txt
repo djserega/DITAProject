@@ -1,0 +1,112 @@
+2023-01-07 00:01:46.990 +02:00 [INF] Logger starting
+2023-01-07 00:01:46.996 +02:00 [INF] Connecting
+2023-01-07 00:01:47.864 +02:00 [INF] Success
+2023-01-07 00:01:47.865 +02:00 [INF] Loading statuses
+2023-01-07 00:01:47.865 +02:00 [INF] Loaded statuses: 4
+2023-01-07 00:02:26.607 +02:00 [INF] Logger starting
+2023-01-07 00:02:26.615 +02:00 [INF] Connecting
+2023-01-07 00:02:27.273 +02:00 [INF] Success
+2023-01-07 00:02:27.274 +02:00 [INF] Loading statuses
+2023-01-07 00:02:27.274 +02:00 [INF] Loaded statuses: 4
+2023-01-07 00:02:39.115 +02:00 [INF] Connecting
+2023-01-07 00:02:39.325 +02:00 [INF] Success
+2023-01-07 00:02:39.325 +02:00 [INF] Loading statuses
+2023-01-07 00:02:39.325 +02:00 [INF] Loaded statuses: 4
+2023-01-07 00:04:51.807 +02:00 [INF] Logger starting
+2023-01-07 00:04:51.815 +02:00 [INF] Connecting
+2023-01-07 00:04:52.468 +02:00 [INF] Success
+2023-01-07 00:04:52.468 +02:00 [INF] Loading statuses
+2023-01-07 00:04:52.468 +02:00 [INF] Loaded statuses: 4
+2023-01-07 00:06:55.644 +02:00 [INF] Logger starting
+2023-01-07 00:06:55.651 +02:00 [INF] Connecting
+2023-01-07 00:06:56.357 +02:00 [INF] Success
+2023-01-07 00:06:56.358 +02:00 [INF] Loading statuses
+2023-01-07 00:06:56.358 +02:00 [INF] Loaded statuses: 4
+2023-01-07 00:09:11.314 +02:00 [INF] Logger starting
+2023-01-07 00:09:11.323 +02:00 [INF] Connecting
+2023-01-07 00:09:11.990 +02:00 [INF] Success
+2023-01-07 00:09:11.991 +02:00 [INF] Loading statuses
+2023-01-07 00:09:11.991 +02:00 [INF] Loaded statuses: 4
+2023-01-07 14:43:05.571 +02:00 [INF] Logger starting
+2023-01-07 14:43:05.603 +02:00 [INF] Connecting
+2023-01-07 14:43:06.330 +02:00 [INF] Success
+2023-01-07 14:43:06.330 +02:00 [INF] Loading statuses
+2023-01-07 14:43:06.331 +02:00 [INF] Loaded statuses: 4
+2023-01-07 14:50:40.281 +02:00 [INF] Logger starting
+2023-01-07 14:50:40.288 +02:00 [INF] Connecting
+2023-01-07 14:50:40.986 +02:00 [INF] Success
+2023-01-07 14:50:40.987 +02:00 [INF] Loading statuses
+2023-01-07 14:50:40.987 +02:00 [INF] Loaded statuses: 4
+2023-01-07 14:51:05.640 +02:00 [INF] Logger starting
+2023-01-07 14:51:05.646 +02:00 [INF] Connecting
+2023-01-07 14:51:06.316 +02:00 [INF] Success
+2023-01-07 14:51:06.316 +02:00 [INF] Loading statuses
+2023-01-07 14:51:06.316 +02:00 [INF] Loaded statuses: 4
+2023-01-07 14:53:22.613 +02:00 [INF] Logger starting
+2023-01-07 14:53:22.620 +02:00 [INF] Connecting
+2023-01-07 14:53:23.360 +02:00 [INF] Success
+2023-01-07 14:53:23.361 +02:00 [INF] Loading statuses
+2023-01-07 14:53:23.361 +02:00 [INF] Loaded statuses: 4
+2023-01-07 14:53:46.722 +02:00 [INF] Logger starting
+2023-01-07 14:53:46.727 +02:00 [INF] Connecting
+2023-01-07 14:53:47.437 +02:00 [INF] Success
+2023-01-07 14:53:47.438 +02:00 [INF] Loading statuses
+2023-01-07 14:53:47.438 +02:00 [INF] Loaded statuses: 4
+2023-01-07 14:54:59.726 +02:00 [INF] Logger starting
+2023-01-07 14:54:59.733 +02:00 [INF] Connecting
+2023-01-07 14:55:00.461 +02:00 [INF] Success
+2023-01-07 14:55:00.462 +02:00 [INF] Loading statuses
+2023-01-07 14:55:00.462 +02:00 [INF] Loaded statuses: 4
+2023-01-07 14:55:04.605 +02:00 [INF] Loading issues
+2023-01-07 14:55:04.613 +02:00 [INF] Initializing base filter issues
+2023-01-07 14:55:04.718 +02:00 [INF] Filtering by date
+2023-01-07 14:55:04.718 +02:00 [INF] Filtering by statuses
+2023-01-07 14:55:04.718 +02:00 [INF] Sorted elements
+2023-01-07 14:55:04.719 +02:00 [INF] Loading issues
+2023-01-07 14:55:05.216 +02:00 [ERR] System.AggregateException: One or more errors occurred. (Response Status Code: 400. Response Content: {"errorMessages":["The value 'DEV' does not exist for the field 'Project'.","The value 'BAS1C' does not exist for the field 'Project'."],"warningMessages":[]})
+ ---> System.InvalidOperationException: Response Status Code: 400. Response Content: {"errorMessages":["The value 'DEV' does not exist for the field 'Project'.","The value 'BAS1C' does not exist for the field 'Project'."],"warningMessages":[]}
+   at Atlassian.Jira.Remote.JiraRestClient.GetValidJsonFromResponse(IRestRequest request, IRestResponse response)
+   at Atlassian.Jira.Remote.JiraRestClient.ExecuteRequestAsync(Method method, String resource, Object requestBody, CancellationToken token)
+   at Atlassian.Jira.Remote.IssueService.GetIssuesFromJqlAsync(IssueSearchOptions options, CancellationToken token)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task.ThrowIfExceptional(Boolean includeTaskCanceledExceptions)
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at Atlassian.Jira.Linq.JiraQueryProvider.Execute(Expression expression, Boolean isEnumerable)
+   at Atlassian.Jira.Linq.JiraQueryProvider.Execute[T](Expression expression)
+   at System.Linq.Queryable.Count[TSource](IQueryable`1 source)
+   at WebApiAspNetCore.JiraBus.JiraConnector.GetFilteredIssue() in D:\GitHub\DITAProject\src\DITAProject\WebApiAspNetCore\JiraBus\JiraСonnector.cs:line 249
+2023-01-07 14:55:13.060 +02:00 [ERR] System.Exception: Ошибка загрузки задач:
+Response Status Code: 400. Response Content: {"errorMessages":["The value 'DEV' does not exist for the field 'Project'.","The value 'BAS1C' does not exist for the field 'Project'."],"warningMessages":[]}
+   at WebApiAspNetCore.JiraBus.JiraConnector.GetFilteredIssue() in D:\GitHub\DITAProject\src\DITAProject\WebApiAspNetCore\JiraBus\JiraСonnector.cs:line 254
+   at WebApiAspNetCore.JiraBus.JiraConnector.GetTask() in D:\GitHub\DITAProject\src\DITAProject\WebApiAspNetCore\JiraBus\JiraСonnector.cs:line 157
+   at WebApiAspNetCore.JiraBus.Main.GetIssues(String token) in D:\GitHub\DITAProject\src\DITAProject\WebApiAspNetCore\JiraBus\MainBus.cs:line 46
+   at WebApiAspNetCore.Controllers.JiraController.GetIssues(String token) in D:\GitHub\DITAProject\src\DITAProject\WebApiAspNetCore\Controllers\JiraController.cs:line 62
+2023-04-03 12:11:20.224 +03:00 [INF] Logger starting
+2023-04-03 12:12:19.345 +03:00 [INF] Logger starting
+2023-04-03 12:13:04.121 +03:00 [INF] Connecting
+2023-04-03 12:13:05.370 +03:00 [INF] Success
+2023-04-03 12:13:05.371 +03:00 [INF] Loading statuses
+2023-04-03 12:13:05.371 +03:00 [INF] Loaded statuses: 19
+2023-04-03 12:13:20.097 +03:00 [INF] Loading issues
+2023-04-03 12:13:20.109 +03:00 [INF] Initializing base filter issues
+2023-04-03 12:13:20.113 +03:00 [INF] Filtering by date
+2023-04-03 12:13:20.113 +03:00 [INF] Filtering by statuses
+2023-04-03 12:13:20.113 +03:00 [INF] Sorted elements
+2023-04-03 12:13:20.113 +03:00 [INF] Loading issues
+2023-04-03 12:13:23.425 +03:00 [INF] Loaded issues: 100
+2023-04-03 12:13:23.426 +03:00 [INF] Converting issues
+2023-04-03 12:13:25.224 +03:00 [INF] Updating list users
+2023-04-03 12:19:45.996 +03:00 [INF] Logger starting
+2023-04-03 12:20:40.906 +03:00 [INF] Connecting
+2023-04-03 12:20:41.904 +03:00 [INF] Success
+2023-04-03 12:20:41.905 +03:00 [INF] Loading statuses
+2023-04-03 12:20:41.905 +03:00 [INF] Loaded statuses: 19
+2023-04-03 12:20:47.479 +03:00 [INF] Loading issues
+2023-04-03 12:20:47.488 +03:00 [INF] Initializing base filter issues
+2023-04-03 12:20:47.492 +03:00 [INF] Filtering by date
+2023-04-03 12:20:47.493 +03:00 [INF] Filtering by statuses
+2023-04-03 12:20:47.493 +03:00 [INF] Sorted elements
+2023-04-03 12:20:47.493 +03:00 [INF] Loading issues
+2023-04-03 12:20:50.319 +03:00 [INF] Loaded issues: 100
+2023-04-03 12:20:50.319 +03:00 [INF] Converting issues
+2023-04-03 12:20:53.332 +03:00 [INF] Updating list users

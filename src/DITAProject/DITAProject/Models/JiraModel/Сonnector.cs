@@ -17,15 +17,16 @@ namespace ITAJira.Models.JiraModel
     internal class Сonnector : BindableBase
     {
         private Jira? _jira;
+        private API.ApiClient? _apiClient;
 
         public Сonnector()
         {
-            Address = Config.Address;
-            User = Config.User;
+            Address = Config.Address ?? string.Empty;
+            User = Config.User ?? string.Empty;
         }
 
         internal static event EventHandler<List<TaskStatus>>? ListStatusUpdatingEvent;
-        internal static event EventHandler<List<Task>>? ListTaskUpdatingEvent;
+        internal static event EventHandler<Task[]>? ListTaskUpdatingEvent;
         internal static event EventHandler<List<User>>? ListUsersInListTask;
 
         internal static event EventHandler<bool>? InvokeConnectedCommandEvent;
@@ -56,19 +57,36 @@ namespace ITAJira.Models.JiraModel
                 {
                     string pwd = windowPwd.GetPassword();
 
-                    await TryConnecting(pwd);
-
-                    if (Connected)
+                    try
                     {
-                        ViewModels.MainViewModel? mainViewModel = VMLoader.Resolve<ViewModels.MainViewModel>();
-                        if (mainViewModel != null)
+                        if (Config.UseApi)
                         {
-                            mainViewModel.ConnectorTime.Address = Address;
-                            mainViewModel.ConnectorTime.User = User;
-                            await mainViewModel.ConnectorTime.TryConnecting(pwd);
+                            _apiClient = new API.ApiClient();
+                            if (_apiClient.Connect(pwd))
+                                Connected = true;
                         }
+                        else
+                        {
+                            await TryConnecting(pwd);
 
-                        GetStatuses();
+                            if (Connected)
+                            {
+                                ViewModels.MainViewModel? mainViewModel = VMLoader.Resolve<ViewModels.MainViewModel>();
+                                if (mainViewModel != null)
+                                {
+                                    mainViewModel.ConnectorTime.Address = Address;
+                                    mainViewModel.ConnectorTime.User = User;
+                                    await mainViewModel.ConnectorTime.TryConnecting(pwd);
+                                }
+
+                                GetStatuses();
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Logger.Err(ex.ToString());
+                        MessageBox.Show(ex.Message);
                     }
                 }
             }
@@ -186,31 +204,38 @@ namespace ITAJira.Models.JiraModel
 
             Logger.Inf("Loading issues");
 
-            IQueryable<Issue>? issues = GetFilteredIssue();
-
-            if (issues == null)
+            if (Config.UseApi && _apiClient != default)
             {
-                ListTaskUpdating = false;
-                return;
+                ListTaskUpdatingEvent?.Invoke(null, _apiClient.GetIssues() ?? Array.Empty<Task>());
             }
-
-            Logger.Inf("Converting issues");
-
-            List<Task> listTask = new();
-            foreach (Issue item in issues)
+            else
             {
-                listTask.Add(new(item));
+                IQueryable<Issue>? issues = GetFilteredIssue();
+
+                if (issues == null)
+                {
+                    ListTaskUpdating = false;
+                    return;
+                }
+
+                Logger.Inf("Converting issues");
+
+                List<Task> listTask = new();
+                foreach (Issue item in issues)
+                {
+                    listTask.Add(new(item));
+                }
+
+                ListTaskUpdatingEvent?.Invoke(null, listTask.ToArray());
+
+                Logger.Inf("Updating list users");
+
+                List<User?> usersTasks = new();
+                usersTasks.AddRange(listTask.Select(el => el.AssigneeUser));
+                usersTasks.AddRange(listTask.Select(el => el.ReporterUser));
+
+                ListUsersInListTask?.Invoke(null, usersTasks.Distinct().Where(el => el != null).ToList());
             }
-
-            ListTaskUpdatingEvent?.Invoke(null, listTask);
-
-            Logger.Inf("Updating list users");
-
-            List<User?> usersTasks = new();
-            usersTasks.AddRange(listTask.Select(el => el.AssigneeUser));
-            usersTasks.AddRange(listTask.Select(el => el.ReporterUser));
-
-            ListUsersInListTask?.Invoke(null, usersTasks.Distinct().Where(el => el != null).ToList());
 
             ListTaskUpdating = false;
         }
@@ -331,7 +356,7 @@ namespace ITAJira.Models.JiraModel
 
                     el.Project == Config.Projects[0]
                     || el.Project == Config.Projects[1]
-                    
+
                     );
             else
                 return _jira.Issues.Queryable;
